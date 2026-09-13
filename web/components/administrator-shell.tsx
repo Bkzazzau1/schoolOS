@@ -11,6 +11,7 @@ const nav=[
  ["Student Registration","/administrator/registration","＋"],
  ["Students & Families","/administrator/students","◉"],
  ["Staff Records","/administrator/staff","♙"],
+ ["Staff Attendance","/administrator/staff-attendance","◷"],
  ["Records & Documents","/administrator/records","▤"],
  ["Transfers & Promotion","/administrator/lifecycle","↗"],
  ["Attendance Desk","/administrator/attendance","✓"],
