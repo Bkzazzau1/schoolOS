@@ -21,6 +21,7 @@ const demoRoles: DemoRole[] = [
   { key: "headmaster", label: "Headmistress", person: "Mrs. Hauwa Sule", scope: "Primary School", email: "headmistress@brightgate.edu.ng", password: "Demo@123", href: "/headmaster" },
   { key: "headteacher", label: "Head Teacher", person: "Mrs. Maryam Abdullahi", scope: "Nursery / Early Years", email: "headteacher@brightgate.edu.ng", password: "Demo@123", href: "/headteacher" },
   { key: "teacher", label: "Teacher", person: "Mrs. Amina Yusuf", scope: "Assigned classes", email: "teacher@brightgate.edu.ng", password: "Demo@123", href: "/teacher" },
+  { key: "parent", label: "Parent / Guardian", person: "Alhaji Abdullahi Yusuf", scope: "2 linked children", email: "parent@brightgate.edu.ng", password: "Demo@123", href: "/parent" },
 ];
 
 export default function LoginPage() {
@@ -65,6 +66,7 @@ export default function LoginPage() {
           <div className="mock-role-summary">
             <div><strong>Leadership stays separated</strong><small>Proprietor, Secondary, Primary and Early Years open different workspaces.</small></div>
             <div><strong>Teachers stay assignment-scoped</strong><small>Teacher access is limited to assigned classes, activities and delegated duties.</small></div>
+            <div><strong>Families stay relationship-scoped</strong><small>Parents and guardians see only children and family records explicitly linked to their account.</small></div>
             <div><strong>Prototype authentication only</strong><small>No real session, password hashing or backend authorization is active yet.</small></div>
           </div>
         </div>
@@ -84,7 +86,7 @@ export default function LoginPage() {
             <div className="mock-login-hint"><span>Selected: {selected.person} · {selected.scope}</span><Link href="/onboarding">Create school account</Link></div>
           </form>
           <section className="mock-credentials"><div className="mock-credentials-head"><h3>Demo credentials</h3><small>Click “Use account” to autofill</small></div>{demoRoles.map((role) => <div className="mock-credential-row" key={role.key}><strong>{role.label}</strong><code>{role.email}</code><code>{role.password}</code><button type="button" onClick={() => chooseRole(role)}>Use account</button></div>)}</section>
-          <div className="mock-security-note"><strong>Prototype boundary:</strong> these credentials exist only in frontend mock code. They demonstrate role routing and do not create secure authentication, persistence or server-side permissions. Parent and Student demo accounts will be added when those dedicated portals are built.</div>
+          <div className="mock-security-note"><strong>Prototype boundary:</strong> these credentials exist only in frontend mock code. They demonstrate role routing and do not create secure authentication, persistence or server-side permissions. A Student demo account will be added when the dedicated Student Portal is built.</div>
         </div>
       </section>
     </main>
