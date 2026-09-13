@@ -10,6 +10,7 @@ import "./headmaster-communication.css";
 import "./headmaster-incidents.css";
 import "./headmaster-ai.css";
 import "./headmaster-performance.css";
+import "./headmaster-profile.css";
 
 export default function HeadmasterLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
