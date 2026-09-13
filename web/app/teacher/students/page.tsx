@@ -37,6 +37,7 @@ export default function TeacherStudentsPage() {
         <div className="module-top-actions">
           <Link href="/teacher/classes">My Classes</Link>
           <Link href="/teacher/assessments">Assessments</Link>
+          <Link href="/teacher/reports">Reports / PDF</Link>
           <Link href="/teacher/messages">Message</Link>
         </div>
       </header>
@@ -89,6 +90,7 @@ export default function TeacherStudentsPage() {
             <div className="student-profile-actions">
               <Link href="/teacher/assessments">Assessment history</Link>
               <Link href="/teacher/attendance">Attendance history</Link>
+              <Link href="/teacher/reports">Print performance / report card</Link>
               <Link href="/teacher/messages">Contact channel</Link>
             </div>
             <label className="student-note-field">Teacher note<textarea value={note} onChange={(e) => { setNote(e.target.value); setSaved(false); }} placeholder="Add a professional teaching/intervention note..." /></label>
@@ -98,7 +100,7 @@ export default function TeacherStudentsPage() {
       </section>
 
       <section className="syllabus-bottom-grid">
-        <article className="module-panel"><h2>Teacher AI student insight</h2><p className="module-copy">Student Gamma shows the strongest combined risk signal in this demo: attendance is below 80% and recent assessment performance is declining. Suggested action: short diagnostic revision, then controlled parent follow-up through SchoolOS messaging.</p><Link className="inline-link" href="/teacher/teacher-ai">Ask Teacher AI</Link></article>
+        <article className="module-panel"><h2>Teacher AI student insight</h2><p className="module-copy">Student Gamma shows the strongest combined risk signal in this demo: attendance is below 80% and recent assessment performance is declining. Suggested action: short diagnostic revision, then controlled parent follow-up through SchoolOS messaging.</p><Link className="inline-link" href="/teacher/ai">Ask Teacher AI</Link></article>
         <article className="module-panel"><h2>Privacy boundary</h2><p className="module-copy">Teachers can only access students assigned to their authorized classes. Finance, unrelated classes, confidential administrative records and other schools remain outside this portal.</p></article>
       </section>
     </main>
