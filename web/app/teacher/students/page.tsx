@@ -8,7 +8,7 @@ const students = [
   { id: "STU-J2A-002", name: "Student Beta", className: "JSS 2A", avg: 61, attendance: 88, trend: "-3.1%", risk: "Watch", intervention: "Revision support" },
   { id: "STU-J2B-001", name: "Student Gamma", className: "JSS 2B", avg: 48, attendance: 79, trend: "-8.4%", risk: "At risk", intervention: "Parent + academic follow-up" },
   { id: "STU-J3A-001", name: "Student Delta", className: "JSS 3A", avg: 91, attendance: 98, trend: "+6.0%", risk: "Strong", intervention: "None" },
-  { id: "STU-S1A-001", name: "Student Epsilon", className: "SS 1A", avg: 73, attendance: 93, trend: "+1.7%", risk: "Stable", intervention: "None" },
+  { id: "STU-S1A-001", name: "Student Epsilon", className: "SS 1A", avg: 68, attendance: 91, trend: "-1.9%", risk: "Stable", intervention: "Subject-level review" },
 ];
 
 export default function TeacherStudentsPage() {
