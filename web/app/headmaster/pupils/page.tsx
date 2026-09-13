@@ -89,7 +89,7 @@ export default function HeadmasterPupilsPage() {
       <section className="primary-pupil-workspace">
         <article className="headmaster-module-card primary-pupil-directory">
           <header>
-            <div><h2>Primary pupil directory</h2><p>Select a pupil to review current learning and attendance context.</p></div>
+            <div><h2>Primary pupil directory</h2><p>Select a pupil for a quick review or open the complete profile.</p></div>
             <div className="primary-pupil-filters">
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pupil, ID or class..." />
               <select value={classFilter} onChange={(e) => setClassFilter(e.target.value)}><option>All classes</option><option>Primary 1</option><option>Primary 2</option><option>Primary 3</option><option>Primary 4</option><option>Primary 5</option><option>Primary 6</option></select>
@@ -100,15 +100,18 @@ export default function HeadmasterPupilsPage() {
           <div className="primary-pupil-table-wrap">
             <div className="primary-pupil-table-head"><span>Pupil</span><span>Class</span><span>Literacy</span><span>Numeracy</span><span>Attendance</span><span>Trend</span><span>Status</span></div>
             {filtered.map((pupil) => (
-              <button key={pupil.id} onClick={() => { setSelectedId(pupil.id); setNote(""); setSaved(false); }} className={`primary-pupil-row ${selected.id === pupil.id ? "selected" : ""}`}>
-                <div><strong>{pupil.name}</strong><small>{pupil.id}</small></div>
-                <span>{pupil.className}</span>
-                <b>{pupil.literacy}%</b>
-                <b>{pupil.numeracy}%</b>
-                <b>{pupil.attendance}%</b>
-                <span className={pupil.trend >= 0 ? "positive" : "negative"}>{pupil.trend >= 0 ? "+" : ""}{pupil.trend}%</span>
-                <em className={`primary-pupil-status ${pupil.status.toLowerCase().replaceAll(" ", "-")}`}>{pupil.status}</em>
-              </button>
+              <div key={pupil.id} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 8, alignItems: "stretch" }}>
+                <button onClick={() => { setSelectedId(pupil.id); setNote(""); setSaved(false); }} className={`primary-pupil-row ${selected.id === pupil.id ? "selected" : ""}`}>
+                  <div><strong>{pupil.name}</strong><small>{pupil.id}</small></div>
+                  <span>{pupil.className}</span>
+                  <b>{pupil.literacy}%</b>
+                  <b>{pupil.numeracy}%</b>
+                  <b>{pupil.attendance}%</b>
+                  <span className={pupil.trend >= 0 ? "positive" : "negative"}>{pupil.trend >= 0 ? "+" : ""}{pupil.trend}%</span>
+                  <em className={`primary-pupil-status ${pupil.status.toLowerCase().replaceAll(" ", "-")}`}>{pupil.status}</em>
+                </button>
+                <Link href={`/headmaster/pupils/${pupil.id}`} style={{ display: "grid", placeItems: "center", padding: "0 12px", border: "1px solid #dfe7ed", borderRadius: 10, background: "#fff", color: "#2e6078", textDecoration: "none", fontSize: 10, fontWeight: 800 }}>Profile</Link>
+              </div>
             ))}
           </div>
         </article>
@@ -133,6 +136,7 @@ export default function HeadmasterPupilsPage() {
           </div>
 
           <div className="primary-pupil-actions">
+            <Link href={`/headmaster/pupils/${selected.id}`}>Open full pupil profile</Link>
             <Link href="/headmaster/results">Open assessments</Link>
             <Link href="/headmaster/attendance">Review attendance</Link>
             <Link href="/headmaster/communication">Contact guardian</Link>
