@@ -71,6 +71,68 @@ const records: Record<string, StudentRecord> = {
   },
 };
 
+type DirectorySummary = Pick<StudentRecord, "name" | "className" | "status" | "average" | "attendance" | "trend" | "classTeacher" | "guardian" | "attention">;
+
+const directorySummaries: Record<string, DirectorySummary> = {
+  "STU-002": { name: "Student Beta", className: "JSS 2A", status: "Watch", average: 61, attendance: 88, trend: -3.1, classTeacher: "Mrs. Amina Yusuf", guardian: "Guardian B", attention: "Recent Mathematics decline needs review across more than one assessment before changing support." },
+  "STU-004": { name: "Student Delta", className: "JSS 3A", status: "Strong", average: 91, attendance: 98, trend: 6.0, classTeacher: "Mrs. Grace Audu", guardian: "Guardian D", attention: "Strong current academic and attendance evidence. Continue normal support and enrichment." },
+  "STU-005": { name: "Student Epsilon", className: "SS 1A", status: "Stable", average: 68, attendance: 91, trend: -1.9, classTeacher: "Mr. Daniel Musa", guardian: "Guardian E", attention: "Overall stable; Physics and Further Mathematics need routine subject-level review." },
+  "STU-006": { name: "Student Zeta", className: "SS 2A", status: "Stable", average: 74, attendance: 93, trend: 2.1, classTeacher: "Mrs. Ruth Adams", guardian: "Guardian F", attention: "No major concern. Continue normal academic monitoring." },
+  "PRI-001": { name: "Pupil Alpha", className: "Primary 1", status: "Strong", average: 82, attendance: 97, trend: 5.2, classTeacher: "Mrs. Zainab Musa", guardian: "Guardian Alpha", attention: "No current learning-support action required." },
+  "PRI-002": { name: "Pupil Beta", className: "Primary 2", status: "Stable", average: 70, attendance: 93, trend: 1.4, classTeacher: "Mrs. Esther Daniel", guardian: "Guardian Beta", attention: "Continue routine numeracy reinforcement and monitor the next learning cycle." },
+  "PRI-004": { name: "Pupil Delta", className: "Primary 4", status: "Strong", average: 81, attendance: 95, trend: 3.7, classTeacher: "Mr. David Joseph", guardian: "Guardian Delta", attention: "No current learning-support action required." },
+  "PRI-005": { name: "Pupil Epsilon", className: "Primary 5", status: "Watch", average: 71, attendance: 90, trend: -2.1, classTeacher: "Mr. Kabiru Lawal", guardian: "Guardian Epsilon", attention: "Monitor literacy trend over the next two assessments before changing support." },
+  "PRI-006": { name: "Pupil Zeta", className: "Primary 6", status: "Stable", average: 80, attendance: 94, trend: 2.9, classTeacher: "Unassigned class teacher", guardian: "Guardian Zeta", attention: "Academic progress is stable; class-teacher assignment remains an operational gap." },
+};
+
+const idAliases: Record<string, string> = {
+  "STU-J2A-001": "STU-001",
+  "STU-J2A-002": "STU-002",
+  "STU-J2B-001": "STU-003",
+  "STU-J3A-001": "STU-004",
+  "STU-S1A-001": "STU-005",
+};
+
+function makeGeneratedRecord(id: string, summary: DirectorySummary): StudentRecord {
+  const primary = id.startsWith("PRI-");
+  const base = primary ? records["PRI-003"] : records["STU-001"];
+  const score = Math.max(35, Math.min(96, Math.round(summary.average)));
+  const lower = Math.max(30, score - 4);
+  const higher = Math.min(98, score + 3);
+
+  return {
+    ...base,
+    id,
+    name: summary.name,
+    className: summary.className,
+    section: primary ? "Primary" : "Secondary",
+    status: summary.status,
+    average: summary.average,
+    attendance: summary.attendance,
+    trend: summary.trend,
+    classTeacher: summary.classTeacher,
+    guardian: summary.guardian,
+    guardianPhone: primary ? "+234 800 222 0000" : "+234 800 111 0000",
+    activities: primary ? ["Creative Arts", "Reading / Games programme"] : ["School activity participation"],
+    awards: summary.status === "Strong" ? ["Positive contribution recognition"] : [],
+    transport: "Service relationship not configured in this sample",
+    house: primary ? "Blue House" : "Green House",
+    subjects: primary
+      ? [{ name: "Literacy", score: lower, trend: `${summary.trend >= 0 ? "+" : ""}${summary.trend.toFixed(1)}` }, { name: "Numeracy", score: higher, trend: `${summary.trend >= 0 ? "+" : ""}${(summary.trend / 2).toFixed(1)}` }, { name: "Basic Science", score, trend: "0.0" }, { name: "Creative Arts", score: Math.min(98, score + 5), trend: "+1.0" }]
+      : [{ name: "Mathematics", score: lower, trend: `${summary.trend >= 0 ? "+" : ""}${summary.trend.toFixed(1)}` }, { name: "English", score: higher, trend: `${summary.trend >= 0 ? "+" : ""}${(summary.trend / 2).toFixed(1)}` }, { name: "Basic Science", score, trend: "0.0" }, { name: "Social Studies", score: Math.min(98, score + 2), trend: "+1.0" }],
+    attendanceSummary: [{ label: "Present", value: `${summary.attendance}%` }, { label: "Late", value: "—" }, { label: "Excused", value: "—" }, { label: "Unexplained", value: "—" }],
+    timeline: [{ date: "Current term", title: "Profile summary", detail: "Representative student record generated from the directory mock for consistent profile navigation.", visibility: "Teacher + Leadership" }],
+    attention: summary.attention,
+  };
+}
+
+function resolveStudentRecord(studentId: string, role: RoleContext): StudentRecord {
+  const canonicalId = idAliases[studentId] ?? studentId;
+  const direct = records[canonicalId];
+  const resolved = direct ?? (directorySummaries[canonicalId] ? makeGeneratedRecord(canonicalId, directorySummaries[canonicalId]) : records[role === "headmaster" ? "PRI-003" : "STU-003"]);
+  return studentId === canonicalId ? resolved : { ...resolved, id: studentId };
+}
+
 const tabs: { key: TabKey; label: string }[] = [
   { key: "overview", label: "Overview" }, { key: "academics", label: "Academics" }, { key: "attendance", label: "Attendance" }, { key: "guardians", label: "Guardians" }, { key: "school-life", label: "School Life" }, { key: "services", label: "Services" }, { key: "documents", label: "Documents" }, { key: "timeline", label: "Timeline" }, { key: "notes", label: "Notes" },
 ];
@@ -85,7 +147,7 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
   const [tab, setTab] = useState<TabKey>("overview");
   const [note, setNote] = useState("");
   const [saved, setSaved] = useState(false);
-  const base = records[studentId] ?? records[role === "headmaster" ? "PRI-003" : "STU-003"];
+  const base = resolveStudentRecord(studentId, role);
   const meta = roleMeta[role];
 
   const visibleDocuments = useMemo(() => role === "teacher" ? base.documents.filter((doc) => doc.visibility.includes("Guardian")) : base.documents, [base.documents, role]);
@@ -124,7 +186,7 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
 
           {tab === "guardians" && <><div className={styles.sectionHead}><div><h3>Guardian relationships</h3><p>Contact and relationship information should be shown only to authorized roles.</p></div></div><div className={styles.guardianCard}><div className={styles.avatar}>GA</div><div><span>Primary guardian</span><h3>{base.guardian}</h3><p>{role === "teacher" ? "Direct phone hidden in teacher view" : base.guardianPhone}</p></div><Link href={role === "teacher" ? "/teacher/messages" : role === "headmaster" ? "/headmaster/communication" : "/principal/communication"}>Open communication</Link></div><div className={styles.boundary}>Pickup authorization, legal custody restrictions and sensitive family information should use separate restricted workflows rather than a broad profile card.</div></>}
 
-          {tab === "school-life" && <><div className={styles.sectionHead}><div><h3>School Life</h3><p>Activities, houses and recognition remain separate from academic grading.</p></div></div><div className={styles.split}><div><span>Activities</span>{base.activities.map((item) => <strong key={item}>{item}</strong>)}</div><div><span>Awards & recognition</span>{base.awards.map((item) => <strong key={item}>{item}</strong>)}</div></div><div className={styles.infoGrid}><div><span>House</span><strong>{base.house}</strong></div><div><span>Recognition rule</span><strong>No grade conversion</strong></div></div></>}
+          {tab === "school-life" && <><div className={styles.sectionHead}><div><h3>School Life</h3><p>Activities, houses and recognition remain separate from academic grading.</p></div></div><div className={styles.split}><div><span>Activities</span>{base.activities.map((item) => <strong key={item}>{item}</strong>)}</div><div><span>Awards & recognition</span>{base.awards.length ? base.awards.map((item) => <strong key={item}>{item}</strong>) : <strong>No recognition record in this mock</strong>}</div></div><div className={styles.infoGrid}><div><span>House</span><strong>{base.house}</strong></div><div><span>Recognition rule</span><strong>No grade conversion</strong></div></div></>}
 
           {tab === "services" && <><div className={styles.sectionHead}><div><h3>School services</h3><p>Operational relationships only. Sensitive route, meal or welfare details stay restricted.</p></div></div><div className={styles.serviceList}><div><span>Transport</span><strong>{base.transport}</strong><small>{role === "teacher" ? "Detailed stops hidden unless assigned transport duty" : "Route relationship on record"}</small></div><div><span>Meals & Cafeteria</span><strong>{base.meals}</strong><small>Health/dietary exceptions are not exposed here</small></div><div><span>Boarding</span><strong>{base.boarding}</strong><small>Optional school service</small></div></div></>}
 
