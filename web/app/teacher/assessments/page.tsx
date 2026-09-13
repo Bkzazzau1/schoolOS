@@ -34,7 +34,7 @@ export default function AssessmentsPage() {
     <main className="module-shell">
       <header className="module-header">
         <div><span className="page-kicker">TEACHER · ASSESSMENTS</span><h1>Assessments</h1><p>Create tests, enter CA scores and monitor class performance.</p></div>
-        <div className="module-header-actions"><Link className="ghost-link" href="/teacher/classes">My Classes</Link><Link className="ghost-link" href="/teacher">Dashboard</Link></div>
+        <div className="module-header-actions"><Link className="ghost-link" href="/teacher/classes">My Classes</Link><Link className="ghost-link" href="/teacher/reports">Reports / PDF</Link><Link className="ghost-link" href="/teacher/share">Share work</Link><Link className="ghost-link" href="/teacher">Dashboard</Link></div>
       </header>
 
       <section className="module-kpis">
@@ -55,7 +55,7 @@ export default function AssessmentsPage() {
             {scores.map((row) => <div className="score-entry-row" key={row.id}><span>{row.id}</span><input type="number" min={0} max={20} value={row.score} onChange={(e) => updateScore(row.id, Number(e.target.value))} /><b>/20</b></div>)}
           </div>
           <div className="score-summary"><span>Demo average</span><strong>{avg.toFixed(1)} / 20</strong></div>
-          <div className="inline-actions"><button className="secondary-btn" onClick={() => setSaved(true)}>Save progress</button><button className="primary-btn" onClick={() => { setSaved(true); setSubmitted(true); }}>Submit scores</button></div>
+          <div className="inline-actions"><Link className="secondary-btn" href="/teacher/share">Share results</Link><button className="secondary-btn" onClick={() => setSaved(true)}>Save progress</button><button className="primary-btn" onClick={() => { setSaved(true); setSubmitted(true); }}>Submit scores</button></div>
           {saved && !submitted && <div className="success-banner">Score-entry progress saved.</div>}
           {submitted && <div className="success-banner">Scores submitted for review/locking according to school policy.</div>}
         </article>
