@@ -12,6 +12,12 @@ type SchoolLifeSection =
   | "houses"
   | "gallery"
   | "excursions"
+  | "transport"
+  | "meals"
+  | "boarding"
+  | "assembly"
+  | "visitors"
+  | "lost-found"
   | "service"
   | "awards"
   | "teaching-models";
@@ -25,6 +31,12 @@ const links: { key: SchoolLifeSection; label: string; href: string }[] = [
   { key: "houses", label: "Houses & Teams", href: "/houses" },
   { key: "gallery", label: "Media Gallery", href: "/gallery" },
   { key: "excursions", label: "Excursions & Consent", href: "/excursions" },
+  { key: "transport", label: "Transport", href: "/transport" },
+  { key: "meals", label: "Meals & Cafeteria", href: "/meals" },
+  { key: "boarding", label: "Boarding & Hostel", href: "/boarding" },
+  { key: "assembly", label: "Assembly & Faith", href: "/assembly" },
+  { key: "visitors", label: "Visitors", href: "/visitors" },
+  { key: "lost-found", label: "Lost & Found", href: "/lost-found" },
   { key: "service", label: "Service & Volunteering", href: "/service" },
   { key: "awards", label: "Awards & Recognition", href: "/awards" },
   { key: "teaching-models", label: "Teaching Models", href: "/teaching-models" },
@@ -50,7 +62,7 @@ export default function SchoolLifeNav({ active }: { active: SchoolLifeSection })
         <div>
           <span className="school-life-kicker">SCHOOL-WIDE · BRIGHTGATE ACADEMY · KADUNA CAMPUS</span>
           <h1>School Life</h1>
-          <p>{portal ? `${portal.label} access · ${portal.scope}. ` : ""}Community, official communication, activities, events, houses, media, trips, service, recognition and flexible teaching structure.</p>
+          <p>{portal ? `${portal.label} access · ${portal.scope}. ` : ""}Community, communication, co-curricular life and everyday school operations in one shared layer.</p>
         </div>
         <Link className="school-life-back" href={portal?.returnHref ?? "/"}>{portal ? `Back to ${portal.label}` : "Back to SchoolOS"}</Link>
       </header>
