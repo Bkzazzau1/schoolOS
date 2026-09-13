@@ -4,6 +4,7 @@ import "./headteacher-children.css";
 import "./headteacher-development.css";
 import "./headteacher-attendance.css";
 import "./headteacher-observations.css";
+import "./headteacher-planning.css";
 
 export default function HeadTeacherLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
