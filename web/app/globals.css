@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f7fb; color: #102033; }
+button, input, select { font: inherit; }
+.shell { min-height: 100vh; display: grid; place-items: center; padding: 32px; }
+.hero { width: min(1080px, 100%); background: linear-gradient(135deg, #07111f, #0d2f45); color: white; border-radius: 28px; padding: clamp(28px, 6vw, 72px); box-shadow: 0 24px 80px rgba(6, 20, 33, 0.2); }
+.badge { display: inline-flex; padding: 8px 12px; border-radius: 999px; background: rgba(100, 221, 197, 0.12); border: 1px solid rgba(100, 221, 197, 0.25); color: #7de4cf; font-size: 12px; font-weight: 700; }
+h1 { margin: 18px 0 12px; max-width: 760px; font-size: clamp(38px, 7vw, 72px); line-height: 0.98; letter-spacing: -0.04em; }
+.hero > p { max-width: 700px; color: #b8cad6; line-height: 1.7; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 32px; }
+.cards article { padding: 18px; border-radius: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+.cards strong, .cards span { display: block; }
+.cards strong { margin-bottom: 8px; }
+.cards span { color: #9eb4c1; font-size: 13px; line-height: 1.5; }
+@media (max-width: 760px) { .cards { grid-template-columns: 1fr; } .shell { padding: 16px; } }
