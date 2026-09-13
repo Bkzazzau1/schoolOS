@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./extras.css";
 import PWARegister from "./pwa-register";
+import PortalSchoolLifeLauncher from "../components/portal-school-life-launcher";
 
 export const metadata: Metadata = {
   title: "SchoolOS AI",
@@ -19,7 +20,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body><PWARegister />{children}</body>
+      <body><PWARegister />{children}<PortalSchoolLifeLauncher /></body>
     </html>
   );
 }
