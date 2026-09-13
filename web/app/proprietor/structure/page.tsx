@@ -54,11 +54,21 @@ export default function ProprietorStructurePage() {
   const sectionLeaders = useMemo(() => leaders.filter((leader) => leader.sectionId === selectedSection.id), [leaders, selectedSection.id]);
   const possibleManagers = sectionLeaders.filter((leader) => leader.level === "Section Head" || leader.level === "Deputy");
 
+  function selectSection(sectionId: string) {
+    const firstManager = leaders.find((leader) => leader.sectionId === sectionId && leader.level === "Section Head");
+    setSelectedSectionId(sectionId);
+    setReportsTo(firstManager?.id ?? "");
+    setNotice("");
+  }
+
   function appointLeader() {
     if (!person || !title.trim()) return;
-    if (level !== "Section Head" && !reportsTo) {
-      setNotice("Choose who this leadership role reports to.");
-      return;
+    if (level !== "Section Head") {
+      const manager = leaders.find((leader) => leader.id === reportsTo);
+      if (!manager || manager.sectionId !== selectedSection.id) {
+        setNotice("Choose a reporting manager from the same academic section.");
+        return;
+      }
     }
     if (level === "Section Head" && sectionLeaders.some((leader) => leader.level === "Section Head")) {
       setNotice(`${selectedSection.name} already has a Section Head. Replace the existing appointment instead of creating a second active Section Head.`);
@@ -100,7 +110,7 @@ export default function ProprietorStructurePage() {
 
       <section className="owner-section-grid">
         {sections.map((section) => (
-          <button key={section.id} onClick={() => { setSelectedSectionId(section.id); setNotice(""); }} className={selectedSection.id === section.id ? "active" : ""}>
+          <button key={section.id} onClick={() => selectSection(section.id)} className={selectedSection.id === section.id ? "active" : ""}>
             <span>{section.stage.toUpperCase()}</span><h2>{section.name}</h2><p>{section.campus}</p><div><small>Leader</small><strong>{section.leaderTitle}</strong><b>{section.leaderName}</b></div><footer>{section.classes} configured classes</footer>
           </button>
         ))}
@@ -125,7 +135,7 @@ export default function ProprietorStructurePage() {
 
         <aside className="proprietor-panel owner-appointment-form">
           <header><div><h3>Appoint leader</h3><p>Add a deputy, HOD, coordinator or section head.</p></div></header>
-          <label>Section<select value={selectedSectionId} onChange={(e) => setSelectedSectionId(e.target.value)}>{sections.map((section) => <option value={section.id} key={section.id}>{section.name}</option>)}</select></label>
+          <label>Section<select value={selectedSectionId} onChange={(e) => selectSection(e.target.value)}>{sections.map((section) => <option value={section.id} key={section.id}>{section.name}</option>)}</select></label>
           <label>Staff member<select value={person} onChange={(e) => setPerson(e.target.value)}>{people.map((name) => <option key={name}>{name}</option>)}</select></label>
           <label>Leadership level<select value={level} onChange={(e) => setLevel(e.target.value as Leader["level"])}><option>Section Head</option><option>Deputy</option><option>HOD</option><option>Coordinator</option></select></label>
           <label>Official title<input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Vice Principal Academics" /></label>
