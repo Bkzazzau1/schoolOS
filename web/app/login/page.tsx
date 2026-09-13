@@ -18,6 +18,7 @@ type DemoRole = {
 const demoRoles: DemoRole[] = [
   { key: "proprietor", label: "Proprietor", person: "Mr. Ibrahim Bello", scope: "Whole school", email: "proprietor@brightgate.edu.ng", password: "Demo@123", href: "/proprietor" },
   { key: "administrator", label: "Administrator", person: "Mrs. Fatima Ahmad", scope: "Whole-school administration", email: "admin@brightgate.edu.ng", password: "Demo@123", href: "/administrator" },
+  { key: "finance", label: "Finance Officer", person: "Mr. Ahmad Bello", scope: "Finance operations", email: "finance@brightgate.edu.ng", password: "Demo@123", href: "/finance-office" },
   { key: "principal", label: "Principal", person: "Mr. Ibrahim Danladi", scope: "Secondary School", email: "principal@brightgate.edu.ng", password: "Demo@123", href: "/principal" },
   { key: "headmaster", label: "Headmistress", person: "Mrs. Hauwa Sule", scope: "Primary School", email: "headmistress@brightgate.edu.ng", password: "Demo@123", href: "/headmaster" },
   { key: "headteacher", label: "Head Teacher", person: "Mrs. Maryam Abdullahi", scope: "Nursery / Early Years", email: "headteacher@brightgate.edu.ng", password: "Demo@123", href: "/headteacher" },
@@ -45,12 +46,10 @@ export default function LoginPage() {
     const match = demoRoles.find(
       (role) => role.email.toLowerCase() === email.trim().toLowerCase() && role.password === password,
     );
-
     if (!match) {
       setError("These demo credentials do not match a SchoolOS role. Select a demo account below or check the email and password.");
       return;
     }
-
     setSelectedKey(match.key);
     setError("");
     router.push(match.href);
@@ -66,6 +65,7 @@ export default function LoginPage() {
           <p>Your people, your classrooms, your whole school. One thoughtful workspace to keep everyone moving forward.</p>
           <div className="mock-role-summary">
             <div><strong>Administration stays operational</strong><small>Student registration, records, family linking and daily school administration stay separate from academic and owner authority.</small></div>
+            <div><strong>Finance stays financial</strong><small>Collections, reconciliation, expenses, financing and payroll processing are separated from academic records and private welfare data.</small></div>
             <div><strong>Leadership stays separated</strong><small>Proprietor, Secondary, Primary and Early Years open different workspaces.</small></div>
             <div><strong>Teachers stay assignment-scoped</strong><small>Teacher access is limited to assigned classes, activities and delegated duties.</small></div>
             <div><strong>Families stay relationship-scoped</strong><small>Parents and guardians see only children and family records explicitly linked to their account.</small></div>
