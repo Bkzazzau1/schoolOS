@@ -51,7 +51,7 @@ export default function TeacherStudentsPage() {
 
       <section className="module-panel student-directory-panel">
         <header>
-          <div><h2>My student roster</h2><p>Only students linked to your current teaching assignments are visible.</p></div>
+          <div><h2>My student roster</h2><p>Only students linked to your current teaching assignments are visible. Open a full profile for deeper context.</p></div>
           <div className="student-filter-bar">
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search student or ID..." />
             <select value={classFilter} onChange={(e) => setClassFilter(e.target.value)}>
@@ -66,11 +66,14 @@ export default function TeacherStudentsPage() {
         <div className="student-directory-grid">
           <div className="student-roster-list">
             {filtered.map((student) => (
-              <button key={student.id} className={`student-roster-row ${selected.id === student.id ? "selected" : ""}`} onClick={() => { setSelected(student); setSaved(false); }}>
-                <span className="student-id-badge">{student.id}</span>
-                <div><strong>{student.name}</strong><small>{student.className} · Avg {student.avg}% · Attendance {student.attendance}%</small></div>
-                <span className={`risk-chip ${student.risk.toLowerCase().replace(" ", "-")}`}>{student.risk}</span>
-              </button>
+              <div key={student.id} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 8, alignItems: "stretch" }}>
+                <button className={`student-roster-row ${selected.id === student.id ? "selected" : ""}`} onClick={() => { setSelected(student); setSaved(false); }}>
+                  <span className="student-id-badge">{student.id}</span>
+                  <div><strong>{student.name}</strong><small>{student.className} · Avg {student.avg}% · Attendance {student.attendance}%</small></div>
+                  <span className={`risk-chip ${student.risk.toLowerCase().replace(" ", "-")}`}>{student.risk}</span>
+                </button>
+                <Link href={`/teacher/students/${student.id}`} style={{ display: "grid", placeItems: "center", padding: "0 12px", border: "1px solid #dfe7ed", borderRadius: 10, background: "#fff", color: "#2e6078", textDecoration: "none", fontSize: 10, fontWeight: 800 }}>Profile</Link>
+              </div>
             ))}
           </div>
 
@@ -88,6 +91,7 @@ export default function TeacherStudentsPage() {
               <strong>{selected.intervention}</strong>
             </div>
             <div className="student-profile-actions">
+              <Link href={`/teacher/students/${selected.id}`}>Open full student profile</Link>
               <Link href="/teacher/assessments">Assessment history</Link>
               <Link href="/teacher/attendance">Attendance history</Link>
               <Link href="/teacher/reports">Print performance / report card</Link>
