@@ -18,9 +18,9 @@ const nav = [
 ];
 
 const classes = [
-  { name: "Nursery 1", children: 28, attendance: "96%", observations: "91%", routines: "Strong", status: "Strong" },
-  { name: "Nursery 2", children: 30, attendance: "93%", observations: "84%", routines: "On track", status: "On track" },
-  { name: "Reception A", children: 26, attendance: "90%", observations: "78%", routines: "Watch", status: "Watch" },
+  { name: "Nursery 1", children: 28, attendance: "96%", observations: "96%", routines: "Strong", status: "Strong" },
+  { name: "Nursery 2", children: 30, attendance: "93%", observations: "90%", routines: "On track", status: "On track" },
+  { name: "Reception A", children: 26, attendance: "90%", observations: "81%", routines: "Watch", status: "Watch" },
 ];
 
 const routines = [
@@ -33,7 +33,7 @@ const routines = [
 
 const priorities = [
   { level: "TODAY", title: "Reception A observation completion", note: "Observation coverage is below the Early Years target; review educator notes before close." },
-  { level: "TODAY", title: "Two guardian follow-ups", note: "Attendance and settling-in conversations are still open." },
+  { level: "TODAY", title: "Three guardian follow-ups", note: "Attendance and settling-in conversations are still open." },
   { level: "THIS WEEK", title: "Nursery 2 language activity review", note: "Compare recent language observations with planned activities." },
 ];
 
@@ -101,19 +101,19 @@ export default function HeadTeacherDashboard() {
             <p>Attendance and observation completion are both lower than the other Early Years groups in this mock dashboard.</p>
             <ul>
               <li>Review educator observation coverage.</li>
-              <li>Check two open guardian follow-ups.</li>
+              <li>Check three open guardian follow-ups.</li>
               <li>Confirm the daily routine is running normally before interpreting learning signals.</li>
             </ul>
           </article>
         </section>
 
         <section className="headteacher-kpis">
-          <article className="headteacher-kpi"><span>Children present</span><strong>80 / 84</strong><small>95% today</small></article>
+          <article className="headteacher-kpi"><span>Children present</span><strong>78 / 84</strong><small>93% today</small></article>
           <article className="headteacher-kpi"><span>Educators present</span><strong>11 / 12</strong><small>1 cover arrangement</small></article>
-          <article className="headteacher-kpi"><span>Observation coverage</span><strong>86%</strong><small>Current cycle</small></article>
-          <article className="headteacher-kpi"><span>Routines on track</span><strong>8 / 9</strong><small>1 review item</small></article>
-          <article className="headteacher-kpi"><span>Guardian follow-ups</span><strong>2</strong><small>Open today</small></article>
-          <article className="headteacher-kpi"><span>Reports ready</span><strong>72%</strong><small>Development summaries</small></article>
+          <article className="headteacher-kpi"><span>Observation coverage</span><strong>89%</strong><small>Current-cycle group average</small></article>
+          <article className="headteacher-kpi"><span>Routine stability</span><strong>93%</strong><small>Group average</small></article>
+          <article className="headteacher-kpi"><span>Guardian follow-ups</span><strong>3</strong><small>Open today</small></article>
+          <article className="headteacher-kpi"><span>Report completion</span><strong>87%</strong><small>Group average</small></article>
         </section>
 
         <section className="headteacher-content-grid">
