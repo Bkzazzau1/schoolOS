@@ -55,6 +55,7 @@ export default function LessonPlansPage() {
         <div className="module-top-actions">
           <Link href="/teacher">Dashboard</Link>
           <Link href="/teacher/syllabus">Open syllabus</Link>
+          <Link href="/teacher/weekly-progress">Weekly parent update</Link>
           <Link href="/teacher/share">Send / share work</Link>
         </div>
       </header>
@@ -92,6 +93,7 @@ export default function LessonPlansPage() {
 
           <div className="editor-actions">
             <Link className="secondary-action" href="/teacher/share">Share with principal / colleague</Link>
+            <Link className="secondary-action" href="/teacher/weekly-progress">Prepare weekly update</Link>
             <button className="secondary-action" onClick={saveDraft}>Save draft</button>
             <button className="primary-action" onClick={submitPlan}>Submit for approval</button>
           </div>
