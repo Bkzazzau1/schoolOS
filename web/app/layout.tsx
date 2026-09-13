@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import PWARegister from "./pwa-register";
 
 export const metadata: Metadata = {
   title: "SchoolOS AI",
@@ -17,7 +18,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><PWARegister />{children}</body>
     </html>
   );
 }
