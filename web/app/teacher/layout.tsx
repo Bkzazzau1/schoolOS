@@ -1,6 +1,6 @@
 import "./teacher.css";
 import "./module-pages.css";
-import "./teacher-final.css";
+import "./reports.css";
 
 export default function TeacherLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
