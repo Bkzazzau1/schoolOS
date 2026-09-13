@@ -91,9 +91,11 @@ export default function HeadTeacherAttendancePage() {
   }), [query, groupFilter, stateFilter]);
 
   const selected = children.find((child) => child.id === selectedId) ?? children[0];
+  const totalEnrolled = groupRows.reduce((sum, row) => sum + row.enrolled, 0);
   const presentToday = groupRows.reduce((sum, row) => sum + row.present, 0);
   const absentToday = groupRows.reduce((sum, row) => sum + row.absent, 0);
   const lateToday = groupRows.reduce((sum, row) => sum + row.late, 0);
+  const attendanceTodayRate = Math.round((presentToday / totalEnrolled) * 100);
   const openFollowUps = followUpQueue.filter((item) => !resolved.includes(item.id)).length;
 
   function toggleResolved(id: string) {
@@ -121,12 +123,12 @@ export default function HeadTeacherAttendancePage() {
       </section>
 
       <section className="early-attendance-kpis">
-        <article><span>Children present</span><strong>{presentToday} / 84</strong><small>95% today</small></article>
+        <article><span>Children present</span><strong>{presentToday} / {totalEnrolled}</strong><small>{attendanceTodayRate}% today</small></article>
         <article><span>Absent today</span><strong>{absentToday}</strong><small>Across Early Years</small></article>
         <article><span>Late today</span><strong>{lateToday}</strong><small>Child arrivals</small></article>
         <article><span>Educators present</span><strong>11 / 12</strong><small>1 cover arrangement</small></article>
         <article><span>Open follow-ups</span><strong>{openFollowUps}</strong><small>Guardian / leadership action</small></article>
-        <article><span>Lowest group attendance</span><strong>90%</strong><small>Reception A</small></article>
+        <article><span>Lowest group attendance</span><strong>90%</strong><small>Reception A · term rate</small></article>
       </section>
 
       <section className="early-attendance-group-grid">
