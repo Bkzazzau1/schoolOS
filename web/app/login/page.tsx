@@ -17,6 +17,7 @@ type DemoRole = {
 
 const demoRoles: DemoRole[] = [
   { key: "proprietor", label: "Proprietor", person: "Mr. Ibrahim Bello", scope: "Whole school", email: "proprietor@brightgate.edu.ng", password: "Demo@123", href: "/proprietor" },
+  { key: "administrator", label: "Administrator", person: "Mrs. Fatima Ahmad", scope: "Whole-school administration", email: "admin@brightgate.edu.ng", password: "Demo@123", href: "/administrator" },
   { key: "principal", label: "Principal", person: "Mr. Ibrahim Danladi", scope: "Secondary School", email: "principal@brightgate.edu.ng", password: "Demo@123", href: "/principal" },
   { key: "headmaster", label: "Headmistress", person: "Mrs. Hauwa Sule", scope: "Primary School", email: "headmistress@brightgate.edu.ng", password: "Demo@123", href: "/headmaster" },
   { key: "headteacher", label: "Head Teacher", person: "Mrs. Maryam Abdullahi", scope: "Nursery / Early Years", email: "headteacher@brightgate.edu.ng", password: "Demo@123", href: "/headteacher" },
@@ -64,6 +65,7 @@ export default function LoginPage() {
           <h1>A little clarity.<br />A brighter school day.</h1>
           <p>Your people, your classrooms, your whole school. One thoughtful workspace to keep everyone moving forward.</p>
           <div className="mock-role-summary">
+            <div><strong>Administration stays operational</strong><small>Student registration, records, family linking and daily school administration stay separate from academic and owner authority.</small></div>
             <div><strong>Leadership stays separated</strong><small>Proprietor, Secondary, Primary and Early Years open different workspaces.</small></div>
             <div><strong>Teachers stay assignment-scoped</strong><small>Teacher access is limited to assigned classes, activities and delegated duties.</small></div>
             <div><strong>Families stay relationship-scoped</strong><small>Parents and guardians see only children and family records explicitly linked to their account.</small></div>
