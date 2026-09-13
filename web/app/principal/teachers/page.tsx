@@ -54,11 +54,12 @@ export default function PrincipalTeachersPage() {
     <main className="principal-module-shell principal-teachers-page">
       <header className="principal-module-header">
         <div>
-          <span className="page-kicker">PRINCIPAL · TEACHER OVERSIGHT</span>
+          <span className="page-kicker">PRINCIPAL · SECONDARY SCHOOL · TEACHER OVERSIGHT</span>
           <h1>Teachers</h1>
-          <p>Monitor workload, attendance, teaching compliance and support needs across the school.</p>
+          <p>Monitor workload, attendance, teaching compliance and support needs inside the Secondary School section.</p>
         </div>
         <div className="principal-module-actions">
+          <Link href="/principal/assignments">Teaching Assignments</Link>
           <Link href="/principal/approvals">Approvals</Link>
           <Link href="/principal/academics">Academics</Link>
           <Link href="/principal">Dashboard</Link>
@@ -66,18 +67,18 @@ export default function PrincipalTeachersPage() {
       </header>
 
       <section className="teacher-overview-kpis">
-        <article><span>Teaching staff</span><strong>38</strong><small>Academic staff</small></article>
+        <article><span>Secondary teaching staff</span><strong>24</strong><small>Current section</small></article>
         <article><span>Staff attendance</span><strong>{averageAttendance}%</strong><small>Current prototype average</small></article>
         <article><span>Needs support</span><strong>{supportCount}</strong><small>Flagged for follow-up</small></article>
         <article><span>Pending teacher work</span><strong>{pendingWork}</strong><small>Awaiting review/action</small></article>
-        <article><span>Lesson-plan compliance</span><strong>89%</strong><small>School-wide</small></article>
-        <article><span>Assessment completion</span><strong>85%</strong><small>School-wide</small></article>
+        <article><span>Lesson-plan compliance</span><strong>89%</strong><small>Secondary section</small></article>
+        <article><span>Assessment completion</span><strong>85%</strong><small>Secondary section</small></article>
       </section>
 
       <section className="principal-teacher-workspace">
         <article className="principal-teacher-directory">
           <header>
-            <div><h2>Teacher directory</h2><p>Select a teacher to review their teaching profile and current indicators.</p></div>
+            <div><h2>Secondary teacher directory</h2><p>Select a teacher to review their teaching profile and current indicators.</p></div>
             <div className="principal-teacher-filters">
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search teacher or subject..." />
               <select value={department} onChange={(e) => setDepartment(e.target.value)}><option>All departments</option><option>Mathematics</option><option>Languages</option><option>Science</option><option>Humanities</option></select>
@@ -90,12 +91,7 @@ export default function PrincipalTeachersPage() {
             {filtered.map((teacher) => (
               <button key={teacher.id} className={`principal-teacher-row ${selected.id === teacher.id ? "selected" : ""}`} onClick={() => { setSelectedId(teacher.id); setPrincipalNote(""); setSaved(false); }}>
                 <div className="principal-teacher-person"><span>{teacher.initials}</span><div><strong>{teacher.name}</strong><small>{teacher.subjects}</small></div></div>
-                <span>{teacher.department}</span>
-                <b>{teacher.attendance}%</b>
-                <b>{teacher.lessonPlans}%</b>
-                <b>{teacher.syllabus}%</b>
-                <b>{teacher.assessments}%</b>
-                <em className={`principal-status ${teacher.status.toLowerCase().replaceAll(" ", "-")}`}>{teacher.status}</em>
+                <span>{teacher.department}</span><b>{teacher.attendance}%</b><b>{teacher.lessonPlans}%</b><b>{teacher.syllabus}%</b><b>{teacher.assessments}%</b><em className={`principal-status ${teacher.status.toLowerCase().replaceAll(" ", "-")}`}>{teacher.status}</em>
               </button>
             ))}
           </div>
@@ -103,30 +99,10 @@ export default function PrincipalTeachersPage() {
 
         <aside className="principal-teacher-detail">
           <div className="principal-teacher-detail-head"><span className="principal-teacher-detail-avatar">{selected.initials}</span><div><span>{selected.id}</span><h2>{selected.name}</h2><p>{selected.department} · {selected.subjects}</p></div></div>
-
-          <div className="principal-teacher-summary-grid">
-            <div><span>Assigned classes</span><strong>{selected.classes}</strong></div>
-            <div><span>Students</span><strong>{selected.students}</strong></div>
-            <div><span>Workload</span><strong>{selected.workload}</strong></div>
-            <div><span>Pending work</span><strong>{selected.pending}</strong></div>
-          </div>
-
-          <div className="principal-teacher-metrics">
-            <Metric label="Attendance" value={selected.attendance} />
-            <Metric label="Punctuality" value={selected.punctuality} />
-            <Metric label="Lesson-plan compliance" value={selected.lessonPlans} />
-            <Metric label="Syllabus pace" value={selected.syllabus} />
-            <Metric label="Assessment completion" value={selected.assessments} />
-          </div>
-
+          <div className="principal-teacher-summary-grid"><div><span>Assigned classes</span><strong>{selected.classes}</strong></div><div><span>Students</span><strong>{selected.students}</strong></div><div><span>Workload</span><strong>{selected.workload}</strong></div><div><span>Pending work</span><strong>{selected.pending}</strong></div></div>
+          <div className="principal-teacher-metrics"><Metric label="Attendance" value={selected.attendance} /><Metric label="Punctuality" value={selected.punctuality} /><Metric label="Lesson-plan compliance" value={selected.lessonPlans} /><Metric label="Syllabus pace" value={selected.syllabus} /><Metric label="Assessment completion" value={selected.assessments} /></div>
           <div className="principal-support-note"><span>Current principal insight</span><p>{selected.note}</p></div>
-
-          <div className="principal-teacher-detail-actions">
-            <Link href="/principal/approvals">Review submitted work</Link>
-            <Link href="/principal/communication">Message teacher</Link>
-            <Link href="/principal/academics">View academic impact</Link>
-          </div>
-
+          <div className="principal-teacher-detail-actions"><Link href="/principal/assignments">Manage teaching assignments</Link><Link href="/principal/approvals">Review submitted work</Link><Link href="/principal/communication">Message teacher</Link><Link href="/principal/academics">View academic impact</Link></div>
           <label className="principal-note-field">Private principal note<textarea value={principalNote} onChange={(e) => { setPrincipalNote(e.target.value); setSaved(false); }} placeholder="Add support, observation or follow-up note..." /></label>
           <button className="principal-save-note" onClick={() => setSaved(true)}>{saved ? "Note saved" : "Save note"}</button>
         </aside>
@@ -135,9 +111,9 @@ export default function PrincipalTeachersPage() {
       <section className="principal-module-card principal-teacher-guidance">
         <h2>Principal guidance</h2>
         <div className="principal-capabilities">
-          <div><span>SUPPORT FIRST</span><strong>Use indicators to identify where coaching, workload adjustment or follow-up may help.</strong></div>
-          <div><span>NO SIMPLE RANKING</span><strong>Teacher quality should not be reduced to one score or student results alone.</strong></div>
-          <div><span>CONTEXT MATTERS</span><strong>Attendance, class size, workload, curriculum pace and submitted work should be considered together.</strong></div>
+          <div><span>SECTION SCOPE</span><strong>This Principal manages Secondary teachers only. Primary and Nursery have separate leaders and permissions.</strong></div>
+          <div><span>ASSIGNMENT AUTHORITY</span><strong>Use Teaching Assignments to allocate qualified teachers to subjects and classes before timetable finalization.</strong></div>
+          <div><span>SUPPORT FIRST</span><strong>Use indicators to identify where coaching, workload adjustment or follow-up may help rather than reducing quality to one score.</strong></div>
         </div>
       </section>
     </main>
