@@ -9,6 +9,7 @@ import "./principal-timetable.css";
 import "./principal-communication.css";
 import "./principal-incidents.css";
 import "./principal-ai.css";
+import "./principal-performance.css";
 
 export default function PrincipalLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
