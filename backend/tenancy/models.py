@@ -162,3 +162,78 @@ class Membership(TimeStampedModel):
     def __str__(self):
         scope = self.section.name if self.section_id else (self.campus.name if self.campus_id else "Whole school")
         return f"{self.user} @ {self.tenant} ({self.role.name} · {scope})"
+
+
+class LeadershipAssignment(TimeStampedModel):
+    class Level(models.TextChoices):
+        SCHOOL_EXECUTIVE = "school_executive", "School Executive"
+        SECTION_HEAD = "section_head", "Section Head"
+        DEPUTY = "deputy", "Deputy / Vice Principal"
+        DEPARTMENT_HEAD = "department_head", "Head of Department"
+        COORDINATOR = "coordinator", "Coordinator"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name="leadership_assignments")
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE, related_name="leadership_assignments")
+    section = models.ForeignKey(
+        SchoolSection,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="leadership_assignments",
+        help_text="Null is allowed only for whole-school executive appointments.",
+    )
+    membership = models.ForeignKey(Membership, on_delete=models.CASCADE, related_name="leadership_assignments")
+    title = models.CharField(max_length=100)
+    level = models.CharField(max_length=30, choices=Level.choices)
+    department_name = models.CharField(max_length=120, blank=True)
+    reports_to = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="direct_reports",
+    )
+    is_primary = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    starts_on = models.DateField(null=True, blank=True)
+    ends_on = models.DateField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["campus__name", "section__sort_order", "level", "title"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["membership", "title", "section"],
+                name="unique_leadership_title_per_membership_scope",
+            ),
+        ]
+
+    def clean(self):
+        errors = {}
+        if self.campus_id and self.tenant_id and self.campus.tenant_id != self.tenant_id:
+            errors["campus"] = "The leadership campus must belong to the same school tenant."
+        if self.membership_id:
+            if self.membership.tenant_id != self.tenant_id:
+                errors["membership"] = "The leadership membership must belong to the same school tenant."
+            if self.membership.campus_id and self.membership.campus_id != self.campus_id:
+                errors["membership"] = "The leadership membership must belong to the selected campus."
+        if self.section_id:
+            if self.section.tenant_id != self.tenant_id or self.section.campus_id != self.campus_id:
+                errors["section"] = "The leadership section must belong to the selected school and campus."
+            if self.membership_id and self.membership.section_id and self.membership.section_id != self.section_id:
+                errors["membership"] = "The membership section must match the leadership section."
+        elif self.level != self.Level.SCHOOL_EXECUTIVE:
+            errors["section"] = "A section is required for non-executive leadership appointments."
+        if self.reports_to_id:
+            if self.reports_to.tenant_id != self.tenant_id or self.reports_to.campus_id != self.campus_id:
+                errors["reports_to"] = "Reporting lines cannot cross school or campus boundaries."
+            if self.section_id and self.reports_to.section_id and self.reports_to.section_id != self.section_id:
+                errors["reports_to"] = "Section leadership must report within the same section unless reporting to a whole-school executive."
+        if self.ends_on and self.starts_on and self.ends_on < self.starts_on:
+            errors["ends_on"] = "The end date cannot be earlier than the start date."
+        if errors:
+            raise ValidationError(errors)
+
+    def __str__(self):
+        scope = self.section.name if self.section_id else self.campus.name
+        return f"{self.title} - {self.membership.user} ({scope})"
