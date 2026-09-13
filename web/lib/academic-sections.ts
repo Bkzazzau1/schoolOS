@@ -20,7 +20,7 @@ export const academicSections: AcademicSection[] = [
     leaderTitle: "Head Teacher",
     leaderName: "Mrs. Mary Daniel",
     editableByActiveUser: false,
-    classes: ["Nursery 1", "Nursery 2"],
+    classes: ["Nursery 1", "Nursery 2", "Reception A"],
   },
   {
     id: "primary",
