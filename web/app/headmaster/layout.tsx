@@ -7,6 +7,7 @@ import "./headmaster-attendance.css";
 import "./headmaster-results.css";
 import "./headmaster-timetable.css";
 import "./headmaster-communication.css";
+import "./headmaster-incidents.css";
 
 export default function HeadmasterLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
