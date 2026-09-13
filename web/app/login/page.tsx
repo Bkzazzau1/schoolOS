@@ -60,8 +60,8 @@ export default function LoginPage() {
         <Link className="mock-login-brand" href="/"><span>S</span><strong>SchoolOS <b>AI</b></strong></Link>
         <div className="mock-login-copy">
           <span>ONE SCHOOL · DIFFERENT WORKSPACES</span>
-          <h1>Every role enters SchoolOS through its own scope.</h1>
-          <p>Use the demo accounts to review the prototype exactly as each school leader or teacher would see it. The selected role determines the portal, section context and School Life permission preview.</p>
+          <h1>A little clarity.<br />A brighter school day.</h1>
+          <p>Your people, your classrooms, your whole school. One thoughtful workspace to keep everyone moving forward.</p>
           <div className="mock-role-summary">
             <div><strong>Leadership stays separated</strong><small>Proprietor, Secondary, Primary and Early Years open different workspaces.</small></div>
             <div><strong>Teachers stay assignment-scoped</strong><small>Teacher access is limited to assigned classes, activities and delegated duties.</small></div>

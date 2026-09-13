@@ -13,6 +13,7 @@ const nav = [
   { label: "Campus Comparison", href: "/proprietor/campuses", icon: "◇" },
   { label: "Proprietor AI", href: "/proprietor/ai", icon: "AI" },
   { label: "Structure & Leadership", href: "/proprietor/structure", icon: "⚙" },
+  { label: "School Appearance", href: "/proprietor/appearance", icon: "◐" },
   { label: "School Life", href: "/school-life/access?portal=proprietor", icon: "✦" },
 ];
 

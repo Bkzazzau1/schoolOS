@@ -18,24 +18,24 @@ export default function PortalSchoolLifeLauncher() {
   if (!portal) return null;
 
   return (
-    <div style={{ position: "fixed", right: 18, bottom: 18, zIndex: 90, display: "flex", flexWrap: "wrap", justifyContent: "flex-end", alignItems: "center", gap: 8, maxWidth: "calc(100vw - 36px)" }}>
+    <div className="portal-actions">
     <button
       type="button"
       onClick={() => window.location.replace("/login")}
-      style={{ cursor: "pointer", color: "#203a56", background: "#fff", border: "1px solid #cbd5e1", borderRadius: 14, padding: "15px 18px", fontSize: 12, fontWeight: 800, boxShadow: "0 14px 34px rgba(25,42,65,.12)" }}
+      className="portal-logout"
     >
       Log out
     </button>
     <Link
       href={`/school-life/access?portal=${portal.key}`}
       aria-label={`Open School Life as ${portal.label}`}
+      className="portal-school-life-link"
       style={{
         display: "flex",
         alignItems: "center",
         gap: 10,
         textDecoration: "none",
         color: "#fff",
-        background: "#203a56",
         border: "1px solid rgba(255,255,255,.14)",
         borderRadius: 14,
         padding: "11px 14px",
