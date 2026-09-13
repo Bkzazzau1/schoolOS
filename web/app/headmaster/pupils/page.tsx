@@ -1,0 +1,164 @@
+"use client";
+
+import Link from "next/link";
+import { useMemo, useState } from "react";
+
+type PupilStatus = "Strong" | "Stable" | "Watch" | "Needs support";
+type Pupil = {
+  id: string;
+  name: string;
+  className: string;
+  literacy: number;
+  numeracy: number;
+  attendance: number;
+  trend: number;
+  status: PupilStatus;
+  readingLevel: string;
+  interventions: number;
+  guardian: string;
+  teacher: string;
+  supportNote: string;
+};
+
+const pupils: Pupil[] = [
+  { id: "PRI-001", name: "Pupil Alpha", className: "Primary 1", literacy: 84, numeracy: 79, attendance: 97, trend: 5.2, status: "Strong", readingLevel: "Above expected", interventions: 0, guardian: "Guardian Alpha", teacher: "Mrs. Zainab Musa", supportNote: "No current learning-support action required." },
+  { id: "PRI-002", name: "Pupil Beta", className: "Primary 2", literacy: 72, numeracy: 68, attendance: 93, trend: 1.4, status: "Stable", readingLevel: "Expected", interventions: 1, guardian: "Guardian Beta", teacher: "Mrs. Esther Daniel", supportNote: "Continue numeracy reinforcement." },
+  { id: "PRI-003", name: "Pupil Gamma", className: "Primary 3", literacy: 54, numeracy: 61, attendance: 82, trend: -6.8, status: "Needs support", readingLevel: "Below expected", interventions: 2, guardian: "Guardian Gamma", teacher: "Mrs. Ruth James", supportNote: "Reading progress and attendance both need teacher and guardian follow-up." },
+  { id: "PRI-004", name: "Pupil Delta", className: "Primary 4", literacy: 78, numeracy: 83, attendance: 95, trend: 3.7, status: "Strong", readingLevel: "Expected", interventions: 0, guardian: "Guardian Delta", teacher: "Mr. David Joseph", supportNote: "No current learning-support action required." },
+  { id: "PRI-005", name: "Pupil Epsilon", className: "Primary 5", literacy: 69, numeracy: 72, attendance: 90, trend: -2.1, status: "Watch", readingLevel: "Expected", interventions: 1, guardian: "Guardian Epsilon", teacher: "Mr. Kabiru Lawal", supportNote: "Monitor literacy trend over the next two assessments." },
+  { id: "PRI-006", name: "Pupil Zeta", className: "Primary 6", literacy: 82, numeracy: 77, attendance: 94, trend: 2.9, status: "Stable", readingLevel: "Above expected", interventions: 0, guardian: "Guardian Zeta", teacher: "Unassigned class teacher", supportNote: "Academic progress is stable; class-teacher assignment is still pending." },
+];
+
+const supportQueue = [
+  { pupil: "Pupil Gamma", className: "Primary 3", reason: "Attendance + reading decline", priority: "High", action: "Coordinate teacher and guardian follow-up" },
+  { pupil: "Pupil Epsilon", className: "Primary 5", reason: "Literacy trend declining", priority: "Medium", action: "Review reading-support plan" },
+  { pupil: "Pupil Beta", className: "Primary 2", reason: "Numeracy reinforcement", priority: "Low", action: "Continue targeted practice" },
+];
+
+export default function HeadmasterPupilsPage() {
+  const [query, setQuery] = useState("");
+  const [classFilter, setClassFilter] = useState("All classes");
+  const [statusFilter, setStatusFilter] = useState("All statuses");
+  const [selectedId, setSelectedId] = useState(pupils[2].id);
+  const [note, setNote] = useState("");
+  const [saved, setSaved] = useState(false);
+
+  const filtered = useMemo(() => pupils.filter((pupil) => {
+    const matchesQuery = `${pupil.name} ${pupil.id} ${pupil.className}`.toLowerCase().includes(query.toLowerCase());
+    const matchesClass = classFilter === "All classes" || pupil.className === classFilter;
+    const matchesStatus = statusFilter === "All statuses" || pupil.status === statusFilter;
+    return matchesQuery && matchesClass && matchesStatus;
+  }), [query, classFilter, statusFilter]);
+
+  const selected = pupils.find((pupil) => pupil.id === selectedId) ?? pupils[0];
+  const supportCount = pupils.filter((pupil) => pupil.status === "Needs support").length;
+  const watchCount = pupils.filter((pupil) => pupil.status === "Watch").length;
+  const lowAttendance = pupils.filter((pupil) => pupil.attendance < 90).length;
+  const averageLiteracy = Math.round(pupils.reduce((sum, pupil) => sum + pupil.literacy, 0) / pupils.length);
+  const averageNumeracy = Math.round(pupils.reduce((sum, pupil) => sum + pupil.numeracy, 0) / pupils.length);
+
+  return (
+    <main className="headmaster-module-shell primary-pupils-page">
+      <header className="headmaster-module-header">
+        <div>
+          <span className="page-kicker">HEADMISTRESS · PRIMARY SCHOOL</span>
+          <h1>Pupils</h1>
+          <p>Monitor Primary pupil progress, attendance, literacy, numeracy and learning-support follow-up.</p>
+        </div>
+        <div className="headmaster-module-actions">
+          <Link href="/headmaster">Dashboard</Link>
+          <Link href="/headmaster/academics">Academics</Link>
+          <Link href="/headmaster/attendance">Attendance</Link>
+        </div>
+      </header>
+
+      <section className="primary-pupil-scope">
+        <div><span>ACTIVE SECTION</span><strong>Primary School</strong><small>Primary 1–6 · Kaduna Campus</small></div>
+        <p>Only Primary pupil records are represented here. Nursery and Secondary remain separate leadership workspaces.</p>
+      </section>
+
+      <section className="primary-pupil-kpis">
+        <article><span>Primary pupils</span><strong>229</strong><small>Prototype section total</small></article>
+        <article><span>Literacy average</span><strong>{averageLiteracy}%</strong><small>Sampled indicators</small></article>
+        <article><span>Numeracy average</span><strong>{averageNumeracy}%</strong><small>Sampled indicators</small></article>
+        <article><span>Needs support</span><strong>{supportCount}</strong><small>Learning-support follow-up</small></article>
+        <article><span>Watch list</span><strong>{watchCount}</strong><small>Monitor next cycle</small></article>
+        <article><span>Attendance follow-up</span><strong>{lowAttendance}</strong><small>Below 90%</small></article>
+      </section>
+
+      <section className="primary-pupil-workspace">
+        <article className="headmaster-module-card primary-pupil-directory">
+          <header>
+            <div><h2>Primary pupil directory</h2><p>Select a pupil to review current learning and attendance context.</p></div>
+            <div className="primary-pupil-filters">
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pupil, ID or class..." />
+              <select value={classFilter} onChange={(e) => setClassFilter(e.target.value)}><option>All classes</option><option>Primary 1</option><option>Primary 2</option><option>Primary 3</option><option>Primary 4</option><option>Primary 5</option><option>Primary 6</option></select>
+              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option>All statuses</option><option>Strong</option><option>Stable</option><option>Watch</option><option>Needs support</option></select>
+            </div>
+          </header>
+
+          <div className="primary-pupil-table-wrap">
+            <div className="primary-pupil-table-head"><span>Pupil</span><span>Class</span><span>Literacy</span><span>Numeracy</span><span>Attendance</span><span>Trend</span><span>Status</span></div>
+            {filtered.map((pupil) => (
+              <button key={pupil.id} onClick={() => { setSelectedId(pupil.id); setNote(""); setSaved(false); }} className={`primary-pupil-row ${selected.id === pupil.id ? "selected" : ""}`}>
+                <div><strong>{pupil.name}</strong><small>{pupil.id}</small></div>
+                <span>{pupil.className}</span>
+                <b>{pupil.literacy}%</b>
+                <b>{pupil.numeracy}%</b>
+                <b>{pupil.attendance}%</b>
+                <span className={pupil.trend >= 0 ? "positive" : "negative"}>{pupil.trend >= 0 ? "+" : ""}{pupil.trend}%</span>
+                <em className={`primary-pupil-status ${pupil.status.toLowerCase().replaceAll(" ", "-")}`}>{pupil.status}</em>
+              </button>
+            ))}
+          </div>
+        </article>
+
+        <aside className="headmaster-module-card primary-pupil-detail">
+          <div className="primary-pupil-detail-head"><span>{selected.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}</span><div><small>{selected.id}</small><h2>{selected.name}</h2><p>{selected.className} · {selected.teacher}</p></div></div>
+
+          <div className="primary-pupil-summary-grid">
+            <div><span>Literacy</span><strong>{selected.literacy}%</strong></div>
+            <div><span>Numeracy</span><strong>{selected.numeracy}%</strong></div>
+            <div><span>Attendance</span><strong>{selected.attendance}%</strong></div>
+            <div><span>Trend</span><strong className={selected.trend >= 0 ? "positive" : "negative"}>{selected.trend >= 0 ? "+" : ""}{selected.trend}%</strong></div>
+          </div>
+
+          <div className="primary-reading-level"><span>Reading level</span><strong>{selected.readingLevel}</strong></div>
+          <div className="primary-pupil-attention"><span>LEARNING SUPPORT NOTE</span><p>{selected.supportNote}</p></div>
+
+          <div className="primary-pupil-context">
+            <div><span>Guardian</span><strong>{selected.guardian}</strong></div>
+            <div><span>Interventions</span><strong>{selected.interventions}</strong></div>
+            <div><span>Status</span><strong>{selected.status}</strong></div>
+          </div>
+
+          <div className="primary-pupil-actions">
+            <Link href="/headmaster/results">Open assessments</Link>
+            <Link href="/headmaster/attendance">Review attendance</Link>
+            <Link href="/headmaster/communication">Contact guardian</Link>
+          </div>
+
+          <label className="primary-pupil-note">Private leadership note<textarea value={note} onChange={(e) => { setNote(e.target.value); setSaved(false); }} placeholder="Add learning-support or follow-up note..." /></label>
+          <button onClick={() => setSaved(true)} className="primary-pupil-save">{saved ? "Note saved" : "Save note"}</button>
+        </aside>
+      </section>
+
+      <section className="primary-pupil-lower-grid">
+        <article className="headmaster-module-card primary-support-queue">
+          <header><div><h2>Learning-support queue</h2><p>Prioritized for teacher and guardian follow-up.</p></div></header>
+          <div>{supportQueue.map((item) => <div key={item.pupil}><span className={`primary-support-priority ${item.priority.toLowerCase()}`}>{item.priority}</span><div><strong>{item.pupil} · {item.className}</strong><small>{item.reason}</small><p>{item.action}</p></div><Link href="/headmaster/communication">Follow up</Link></div>)}</div>
+        </article>
+
+        <article className="headmaster-module-card primary-pupil-ai">
+          <span className="page-kicker">HEADMASTER AI · LEARNING SUPPORT</span>
+          <h2>Where should leadership focus?</h2>
+          <p>Primary 3 currently shows the strongest combined learning-support signal in the prototype because attendance and literacy are both below section expectations. The recommended response is teacher and guardian follow-up, not an automated decision.</p>
+          <div><span>Current focus</span><strong>Primary 3</strong></div>
+          <div><span>Main indicators</span><strong>Attendance + literacy</strong></div>
+          <div><span>Recommended posture</span><strong>Support and monitor</strong></div>
+          <Link href="/headmaster/ai">Ask Headmaster AI</Link>
+        </article>
+      </section>
+    </main>
+  );
+}
