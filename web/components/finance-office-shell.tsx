@@ -6,6 +6,9 @@ import type { ReactNode } from "react";
 
 const nav = [
   ["Dashboard","/finance-office","⌂"],
+  ["Smart Collections","/finance-office/collections","◈"],
+  ["Payment Mandates","/finance-office/mandates","↻"],
+  ["Receipts","/finance-office/receipts","▧"],
   ["Student Accounts","/finance-office/accounts","₦"],
   ["Reconciliation","/finance-office/reconciliation","↔"],
   ["Expenses & Income","/finance-office/expenses","▤"],
