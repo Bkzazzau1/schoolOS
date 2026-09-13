@@ -6,23 +6,28 @@ import { schoolProfile } from "../lib/school-profile";
 import styles from "./student-profile.module.css";
 
 type RoleContext = "principal" | "headmaster" | "teacher";
-type TabKey = "overview" | "academics" | "attendance" | "guardians" | "school-life" | "services" | "history" | "documents" | "timeline" | "notes";
+type TabKey = "overview" | "academics" | "attendance" | "family" | "school-life" | "services" | "history" | "status" | "documents" | "timeline" | "notes";
+type EnrollmentStatus = "Active" | "Transfer pending" | "Withdrawn" | "Alumni";
 type EmergencyContact = { name: string; relationship: string; channel: string; priority: string };
 type HistoryRow = { session: string; className: string; outcome: string; note: string };
+type Sibling = { id: string; name: string; className: string; section: string; status: string };
 
 type StudentRecord = {
   id: string;
+  admissionNo: string;
   name: string;
   className: string;
   section: "Secondary" | "Primary";
   campus: string;
   status: string;
+  enrollmentStatus: EnrollmentStatus;
   average: number;
   attendance: number;
   trend: number;
   classTeacher: string;
   guardian: string;
   guardianPhone: string;
+  familyAccountId: string;
   admissionDate: string;
   dateOfBirth: string;
   gender: string;
@@ -31,6 +36,7 @@ type StudentRecord = {
   genotype: string;
   medicalInstruction: string;
   emergencyContacts: EmergencyContact[];
+  siblings: Sibling[];
   activities: string[];
   awards: string[];
   transport: string;
@@ -48,10 +54,11 @@ type StudentRecord = {
 
 const records: Record<string, StudentRecord> = {
   "STU-001": {
-    id: "STU-001", name: "Maryam Abdullahi", className: "JSS 2A", section: "Secondary", campus: "Kaduna Campus", status: "Strong", average: 86, attendance: 96, trend: 4.2,
-    classTeacher: "Mrs. Amina Yusuf", guardian: "Alhaji Abdullahi Musa", guardianPhone: "+234 800 111 0001", admissionDate: "12 Sep 2023", dateOfBirth: "14 Feb 2013", gender: "Female", house: "Blue House",
+    id: "STU-001", admissionNo: "BGA/2023/SEC/001", name: "Maryam Abdullahi", className: "JSS 2A", section: "Secondary", campus: "Kaduna Campus", status: "Strong", enrollmentStatus: "Active", average: 86, attendance: 96, trend: 4.2,
+    classTeacher: "Mrs. Amina Yusuf", guardian: "Alhaji Abdullahi Musa", guardianPhone: "+234 800 111 0001", familyAccountId: "FAM-ABD-0041", admissionDate: "12 Sep 2023", dateOfBirth: "14 Feb 2013", gender: "Female", house: "Blue House",
     bloodGroup: "O+", genotype: "AA", medicalInstruction: "No active school-day medical instruction in this mock record.",
     emergencyContacts: [{ name: "Hajiya Zainab Abdullahi", relationship: "Mother", channel: "+234 800 111 0101", priority: "Primary" }, { name: "Alhaji Abdullahi Musa", relationship: "Father", channel: "+234 800 111 0001", priority: "Secondary" }],
+    siblings: [{ id: "PRI-006", name: "Ahmad Musa", className: "Primary 6", section: "Primary", status: "Active" }],
     activities: ["Chess Club", "Debate & Public Speaking"], awards: ["Excellent Attendance · Term 2", "Debate Team Recognition"], transport: "BUS-02 · Barnawa / Kakuri Route", meals: "Standard school menu", boarding: "Day student", feeVisibility: "Finance team + authorized guardian only", previousSchool: "Al-Hikmah Primary School, Kaduna",
     promotionHistory: [{ session: "2025/2026", className: "JSS 1A", outcome: "Promoted to JSS 2", note: "Normal progression" }, { session: "2024/2025", className: "Primary 6", outcome: "Completed", note: "Admission transition record" }],
     documents: [{ name: "Admission form", status: "Verified", visibility: "Leadership + Records" }, { name: "Birth record", status: "Verified", visibility: "Leadership + Records" }, { name: "Guardian consent", status: "Current", visibility: "Leadership + Guardian" }],
@@ -61,10 +68,11 @@ const records: Record<string, StudentRecord> = {
     attention: "No current major concern. Continue normal academic and co-curricular support.",
   },
   "STU-003": {
-    id: "STU-003", name: "Yusuf Bello", className: "JSS 2B", section: "Secondary", campus: "Kaduna Campus", status: "At risk", average: 48, attendance: 79, trend: -8.4,
-    classTeacher: "Mr. Sani Bello", guardian: "Alhaji Musa Bello", guardianPhone: "+234 800 111 0003", admissionDate: "9 Sep 2023", dateOfBirth: "22 Jun 2012", gender: "Male", house: "Red House",
+    id: "STU-003", admissionNo: "BGA/2023/SEC/003", name: "Yusuf Bello", className: "JSS 2B", section: "Secondary", campus: "Kaduna Campus", status: "At risk", enrollmentStatus: "Active", average: 48, attendance: 79, trend: -8.4,
+    classTeacher: "Mr. Sani Bello", guardian: "Alhaji Musa Bello", guardianPhone: "+234 800 111 0003", familyAccountId: "FAM-BEL-0087", admissionDate: "9 Sep 2023", dateOfBirth: "22 Jun 2012", gender: "Male", house: "Red House",
     bloodGroup: "A+", genotype: "AA", medicalInstruction: "Health details restricted. No diagnosis should be inferred from attendance or performance data.",
     emergencyContacts: [{ name: "Hajiya Rabi Musa", relationship: "Mother", channel: "+234 800 111 0301", priority: "Primary" }, { name: "Alhaji Musa Bello", relationship: "Father", channel: "+234 800 111 0003", priority: "Secondary" }],
+    siblings: [{ id: "PRI-002", name: "Muhammad Kabir", className: "Primary 2", section: "Primary", status: "Active" }],
     activities: ["Football Academy"], awards: ["House Participation · Term 1"], transport: "No school transport", meals: "Standard school menu", boarding: "Day student", feeVisibility: "Finance team + authorized guardian only", previousSchool: "Darul Ilm Academy, Kaduna",
     promotionHistory: [{ session: "2025/2026", className: "JSS 1B", outcome: "Promoted to JSS 2", note: "Support plan continued" }, { session: "2024/2025", className: "Primary 6", outcome: "Completed", note: "Admission transition record" }],
     documents: [{ name: "Admission form", status: "Verified", visibility: "Leadership + Records" }, { name: "Birth record", status: "Verified", visibility: "Leadership + Records" }, { name: "Guardian contact record", status: "Current", visibility: "Leadership + Guardian" }],
@@ -74,10 +82,11 @@ const records: Record<string, StudentRecord> = {
     attention: "Attendance weakness and academic decline are appearing together. Review context with teacher and guardian before deciding next support action.",
   },
   "PRI-003": {
-    id: "PRI-003", name: "Hafsa Abdullahi", className: "Primary 3", section: "Primary", campus: "Kaduna Campus", status: "Needs support", average: 58, attendance: 82, trend: -6.8,
-    classTeacher: "Mrs. Khadija Musa", guardian: "Alhaji Abdullahi Sani", guardianPhone: "+234 800 222 0003", admissionDate: "11 Sep 2022", dateOfBirth: "7 Mar 2017", gender: "Female", house: "Green House",
+    id: "PRI-003", admissionNo: "BGA/2022/PRI/003", name: "Hafsa Abdullahi", className: "Primary 3", section: "Primary", campus: "Kaduna Campus", status: "Needs support", enrollmentStatus: "Active", average: 58, attendance: 82, trend: -6.8,
+    classTeacher: "Mrs. Khadija Musa", guardian: "Alhaji Abdullahi Sani", guardianPhone: "+234 800 222 0003", familyAccountId: "FAM-ABD-0065", admissionDate: "11 Sep 2022", dateOfBirth: "7 Mar 2017", gender: "Female", house: "Green House",
     bloodGroup: "O+", genotype: "AA", medicalInstruction: "No active school-day medical instruction in this mock record.",
     emergencyContacts: [{ name: "Hajiya Fatima Abdullahi", relationship: "Mother", channel: "+234 800 222 0301", priority: "Primary" }, { name: "Alhaji Abdullahi Sani", relationship: "Father", channel: "+234 800 222 0003", priority: "Secondary" }],
+    siblings: [{ id: "STU-005", name: "Abdullahi Umar", className: "SS 1A", section: "Secondary", status: "Active" }],
     activities: ["Reading Buddies", "Creative Arts"], awards: ["Kindness Recognition · Term 1"], transport: "BUS-01 · Zaria Road Route", meals: "Standard school menu", boarding: "Day pupil", feeVisibility: "Finance team + authorized guardian only", previousSchool: "BrightGate Nursery Section",
     promotionHistory: [{ session: "2025/2026", className: "Primary 2", outcome: "Promoted to Primary 3", note: "Continue reading support" }, { session: "2024/2025", className: "Primary 1", outcome: "Promoted to Primary 2", note: "Normal progression" }],
     documents: [{ name: "Admission form", status: "Verified", visibility: "Leadership + Records" }, { name: "Birth record", status: "Verified", visibility: "Leadership + Records" }, { name: "Pickup authorization", status: "Current", visibility: "Leadership + Guardian" }],
@@ -89,7 +98,6 @@ const records: Record<string, StudentRecord> = {
 };
 
 type DirectorySummary = Pick<StudentRecord, "name" | "className" | "status" | "average" | "attendance" | "trend" | "classTeacher" | "guardian" | "attention">;
-
 const directorySummaries: Record<string, DirectorySummary> = {
   "STU-002": { name: "Ibrahim Sani", className: "JSS 2A", status: "Watch", average: 61, attendance: 88, trend: -3.1, classTeacher: "Mrs. Amina Yusuf", guardian: "Alhaji Sani Ibrahim", attention: "Recent Mathematics decline needs review across more than one assessment before changing support." },
   "STU-004": { name: "Fatima Musa", className: "JSS 3A", status: "Strong", average: 91, attendance: 98, trend: 6.0, classTeacher: "Mrs. Zainab Lawal", guardian: "Hajiya Aisha Musa", attention: "Strong current academic and attendance evidence. Continue normal support and enrichment." },
@@ -102,22 +110,24 @@ const directorySummaries: Record<string, DirectorySummary> = {
   "PRI-006": { name: "Ahmad Musa", className: "Primary 6", status: "Stable", average: 80, attendance: 94, trend: 2.9, classTeacher: "Unassigned class teacher", guardian: "Alhaji Musa Ahmad", attention: "Academic progress is stable; class-teacher assignment remains an operational gap." },
 };
 
-const idAliases: Record<string, string> = {
-  "STU-J2A-001": "STU-001", "STU-J2A-002": "STU-002", "STU-J2B-001": "STU-003", "STU-J3A-001": "STU-004", "STU-S1A-001": "STU-005",
-};
+const idAliases: Record<string, string> = { "STU-J2A-001": "STU-001", "STU-J2A-002": "STU-002", "STU-J2B-001": "STU-003", "STU-J3A-001": "STU-004", "STU-S1A-001": "STU-005" };
+
+function generatedAdmissionNo(id: string, primary: boolean) {
+  const digits = id.replace(/\D/g, "").padStart(3, "0").slice(-3);
+  return `BGA/2026/${primary ? "PRI" : "SEC"}/${digits}`;
+}
 
 function makeGeneratedRecord(id: string, summary: DirectorySummary): StudentRecord {
   const primary = id.startsWith("PRI-");
   const base = primary ? records["PRI-003"] : records["STU-001"];
   const score = Math.max(35, Math.min(96, Math.round(summary.average)));
-  const lower = Math.max(30, score - 4);
-  const higher = Math.min(98, score + 3);
   return {
-    ...base, id, name: summary.name, className: summary.className, section: primary ? "Primary" : "Secondary", status: summary.status, average: summary.average, attendance: summary.attendance, trend: summary.trend, classTeacher: summary.classTeacher, guardian: summary.guardian,
+    ...base, id, admissionNo: generatedAdmissionNo(id, primary), name: summary.name, className: summary.className, section: primary ? "Primary" : "Secondary", status: summary.status, average: summary.average, attendance: summary.attendance, trend: summary.trend, classTeacher: summary.classTeacher, guardian: summary.guardian,
+    familyAccountId: `FAM-${summary.guardian.replace(/[^A-Za-z]/g, "").slice(-3).toUpperCase()}-${id.replace(/\D/g, "").padStart(4, "0")}`,
     guardianPhone: primary ? "+234 800 222 0000" : "+234 800 111 0000", emergencyContacts: [{ name: summary.guardian, relationship: "Authorized guardian", channel: primary ? "+234 800 222 0000" : "+234 800 111 0000", priority: "Primary" }],
-    activities: primary ? ["Creative Arts", "Reading / Games programme"] : ["School activity participation"], awards: summary.status === "Strong" ? ["Positive contribution recognition"] : [], transport: "Service relationship not configured in this sample", house: primary ? "Blue House" : "Green House",
-    previousSchool: primary ? "BrightGate Early Years / previous primary record" : "Previous-school record available to authorized admissions staff", promotionHistory: [{ session: "2025/2026", className: "Previous class", outcome: `Progressed to ${summary.className}`, note: "Representative mock progression record" }], feeVisibility: "Finance team + authorized guardian only",
-    subjects: primary ? [{ name: "Literacy", score: lower, trend: `${summary.trend >= 0 ? "+" : ""}${summary.trend.toFixed(1)}` }, { name: "Numeracy", score: higher, trend: `${summary.trend >= 0 ? "+" : ""}${(summary.trend / 2).toFixed(1)}` }, { name: "Basic Science", score, trend: "0.0" }, { name: "Creative Arts", score: Math.min(98, score + 5), trend: "+1.0" }] : [{ name: "Mathematics", score: lower, trend: `${summary.trend >= 0 ? "+" : ""}${summary.trend.toFixed(1)}` }, { name: "English", score: higher, trend: `${summary.trend >= 0 ? "+" : ""}${(summary.trend / 2).toFixed(1)}` }, { name: "Basic Science", score, trend: "0.0" }, { name: "Social Studies", score: Math.min(98, score + 2), trend: "+1.0" }],
+    siblings: [], activities: primary ? ["Creative Arts", "Reading / Games programme"] : ["School activity participation"], awards: summary.status === "Strong" ? ["Positive contribution recognition"] : [], transport: "Service relationship not configured in this sample", house: primary ? "Blue House" : "Green House", previousSchool: primary ? "Previous Early Years / Primary record" : "Previous-school record available to authorized admissions staff",
+    promotionHistory: [{ session: "2025/2026", className: "Previous class", outcome: `Progressed to ${summary.className}`, note: "Representative mock progression record" }], feeVisibility: "Finance team + authorized guardian only",
+    subjects: primary ? [{ name: "Literacy", score: score - 3, trend: `${summary.trend}` }, { name: "Numeracy", score: score + 2, trend: `${summary.trend / 2}` }] : [{ name: "Mathematics", score: score - 4, trend: `${summary.trend}` }, { name: "English", score: score + 2, trend: `${summary.trend / 2}` }],
     attendanceSummary: [{ label: "Present", value: `${summary.attendance}%` }, { label: "Late", value: "—" }, { label: "Excused", value: "—" }, { label: "Unexplained", value: "—" }], timeline: [{ date: "Current term", title: "Profile summary", detail: "Representative student record generated from the directory mock for consistent profile navigation.", visibility: "Teacher + Leadership" }], attention: summary.attention,
   };
 }
@@ -130,7 +140,7 @@ function resolveStudentRecord(studentId: string, role: RoleContext): StudentReco
 }
 
 const tabs: { key: TabKey; label: string }[] = [
-  { key: "overview", label: "Overview" }, { key: "academics", label: "Academics" }, { key: "attendance", label: "Attendance" }, { key: "guardians", label: "Guardians" }, { key: "school-life", label: "School Life" }, { key: "services", label: "Services" }, { key: "history", label: "History" }, { key: "documents", label: "Documents" }, { key: "timeline", label: "Timeline" }, { key: "notes", label: "Notes" },
+  { key: "overview", label: "Overview" }, { key: "academics", label: "Academics" }, { key: "attendance", label: "Attendance" }, { key: "family", label: "Family" }, { key: "school-life", label: "School Life" }, { key: "services", label: "Services" }, { key: "history", label: "History" }, { key: "status", label: "Status & Promotion" }, { key: "documents", label: "Documents" }, { key: "timeline", label: "Timeline" }, { key: "notes", label: "Notes" },
 ];
 
 const roleMeta: Record<RoleContext, { label: string; scope: string; back: string; note: string }> = {
@@ -143,10 +153,14 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
   const [tab, setTab] = useState<TabKey>("overview");
   const [note, setNote] = useState("");
   const [saved, setSaved] = useState(false);
+  const [enrollmentStatus, setEnrollmentStatus] = useState<EnrollmentStatus>("Active");
+  const [nextClass, setNextClass] = useState("");
+  const [workflowSaved, setWorkflowSaved] = useState(false);
   const base = resolveStudentRecord(studentId, role);
   const meta = roleMeta[role];
   const visibleDocuments = useMemo(() => role === "teacher" ? base.documents.filter((doc) => doc.visibility.includes("Guardian")) : base.documents, [base.documents, role]);
   const initials = base.name.split(" ").map((part) => part[0]).join("").slice(0, 2);
+  const barcodeBars = base.admissionNo.replace(/[^0-9]/g, "").split("");
 
   return <main className={styles.page}>
     <header className={styles.topbar}>
@@ -154,11 +168,11 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
       <div className={styles.actions}><Link href={meta.back}>← Back to directory</Link><button type="button" onClick={() => window.print()}>Print profile / ID</button><Link href={role === "teacher" ? "/teacher/messages" : role === "headmaster" ? "/headmaster/communication" : "/principal/communication"}>Contact guardian</Link></div>
     </header>
 
-    <section className={styles.scope}><div><strong>{meta.scope}</strong><small>{meta.note}</small></div><span>UI prototype · role-aware visibility</span></section>
+    <section className={styles.scope}><div><strong>{meta.scope}</strong><small>{meta.note}</small></div><span>{enrollmentStatus} · UI prototype</span></section>
 
     <section className={styles.hero}>
       <div className={styles.photo}><div>{initials}</div><small>Student photo</small></div>
-      <div className={styles.identity}><span>{base.id}</span><h2>{base.name}</h2><p>{base.className} · {base.classTeacher}</p><div><em>{base.status}</em><em>{base.house}</em><em>{base.section}</em></div></div>
+      <div className={styles.identity}><span>{base.admissionNo}</span><h2>{base.name}</h2><p>{base.className} · {base.classTeacher}</p><div><em>{base.status}</em><em>{base.house}</em><em>{enrollmentStatus}</em></div></div>
       <div className={styles.heroMetrics}><div><span>Average</span><strong>{base.average}%</strong></div><div><span>Attendance</span><strong>{base.attendance}%</strong></div><div><span>Trend</span><strong className={base.trend < 0 ? styles.negative : styles.positive}>{base.trend > 0 ? "+" : ""}{base.trend}%</strong></div></div>
     </section>
 
@@ -166,24 +180,21 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
 
     <section className={styles.layout}>
       <div className={styles.mainCard}>
-        {tab === "overview" && <>
-          <div className={styles.sectionHead}><div><h3>Student overview</h3><p>Identity, enrollment and authorized school context in one record.</p></div></div>
-          <div className={styles.infoGrid}><div><span>Student ID</span><strong>{base.id}</strong></div><div><span>Date of birth</span><strong>{base.dateOfBirth}</strong></div><div><span>Gender</span><strong>{base.gender}</strong></div><div><span>Admission date</span><strong>{base.admissionDate}</strong></div><div><span>Class</span><strong>{base.className}</strong></div><div><span>Class teacher</span><strong>{base.classTeacher}</strong></div></div>
-          <div className={styles.attention}><span>Current attention</span><strong>{base.attention}</strong></div>
-          <div className={styles.quickGrid}><div><span>Guardian</span><strong>{base.guardian}</strong><small>{role === "teacher" ? "Contact through SchoolOS messaging" : base.guardianPhone}</small></div><div><span>Previous school</span><strong>{base.previousSchool}</strong><small>Admissions / records context</small></div><div><span>Finance visibility</span><strong>Restricted</strong><small>{base.feeVisibility}</small></div></div>
-        </>}
+        {tab === "overview" && <><div className={styles.sectionHead}><div><h3>Student overview</h3><p>Identity, admission and authorized school context in one record.</p></div></div><div className={styles.infoGrid}><div><span>Admission number</span><strong>{base.admissionNo}</strong></div><div><span>Internal ID</span><strong>{base.id}</strong></div><div><span>Date of birth</span><strong>{base.dateOfBirth}</strong></div><div><span>Admission date</span><strong>{base.admissionDate}</strong></div><div><span>Class</span><strong>{base.className}</strong></div><div><span>Class teacher</span><strong>{base.classTeacher}</strong></div></div><div className={styles.attention}><span>Current attention</span><strong>{base.attention}</strong></div><div className={styles.quickGrid}><div><span>Guardian</span><strong>{base.guardian}</strong><small>{role === "teacher" ? "Contact through SchoolOS messaging" : base.guardianPhone}</small></div><div><span>Family account</span><strong>{role === "teacher" ? "Restricted" : base.familyAccountId}</strong><small>Sibling and guardian linkage</small></div><div><span>Finance</span><strong>Restricted</strong><small>{base.feeVisibility}</small></div></div></>}
 
         {tab === "academics" && <><div className={styles.sectionHead}><div><h3>Academic profile</h3><p>Subject evidence and recent direction. This is not a permanent ability label.</p></div></div><div className={styles.subjectList}>{base.subjects.map((subject) => <div key={subject.name}><div><strong>{subject.name}</strong><small>Trend {subject.trend}%</small></div><span>{subject.score}%</span><i><b style={{width:`${subject.score}%`}} /></i></div>)}</div><div className={styles.boundary}>AI may summarize patterns and suggest review areas, but final academic judgement remains with teachers and authorized school leadership.</div></>}
 
         {tab === "attendance" && <><div className={styles.sectionHead}><div><h3>Attendance context</h3><p>Patterns can trigger supportive follow-up but should not be used to infer family circumstances.</p></div></div><div className={styles.metricGrid}>{base.attendanceSummary.map((item) => <div key={item.label}><span>{item.label}</span><strong>{item.value}</strong></div>)}</div><div className={styles.attention}><span>Human review rule</span><strong>Check reasons and school records before interpreting an attendance pattern. No neglect, health or family inference from attendance alone.</strong></div></>}
 
-        {tab === "guardians" && <><div className={styles.sectionHead}><div><h3>Guardians & emergency contacts</h3><p>Relationship and emergency details are role-restricted and must not become a public family directory.</p></div></div><div className={styles.guardianCard}><div className={styles.avatar}>GA</div><div><span>Primary guardian</span><h3>{base.guardian}</h3><p>{role === "teacher" ? "Direct phone hidden in teacher view" : base.guardianPhone}</p></div><Link href={role === "teacher" ? "/teacher/messages" : role === "headmaster" ? "/headmaster/communication" : "/principal/communication"}>Open communication</Link></div><div className={styles.contactList}>{base.emergencyContacts.map((contact) => <div key={`${contact.name}-${contact.priority}`}><div><strong>{contact.name}</strong><small>{contact.relationship} · {contact.priority}</small></div><span>{role === "teacher" ? "School contact workflow" : contact.channel}</span></div>)}</div><div className={styles.boundary}>Pickup authorization, custody restrictions and sensitive family circumstances belong in separate restricted workflows.</div></>}
+        {tab === "family" && <><div className={styles.sectionHead}><div><h3>Guardian, siblings & family account</h3><p>One guardian account may securely link multiple children without exposing unrelated family records.</p></div></div><div className={styles.familyHeader}><div><span>Family account</span><strong>{role === "teacher" ? "Restricted" : base.familyAccountId}</strong><small>{base.guardian}</small></div>{role !== "teacher" && <Link href="/finance">Open family finance</Link>}</div><div className={styles.contactList}>{base.emergencyContacts.map((contact) => <div key={`${contact.name}-${contact.priority}`}><div><strong>{contact.name}</strong><small>{contact.relationship} · {contact.priority}</small></div><span>{role === "teacher" ? "School contact workflow" : contact.channel}</span></div>)}</div><h4 className={styles.subTitle}>Linked children / siblings</h4><div className={styles.siblingGrid}>{base.siblings.length ? base.siblings.map((sibling) => <article key={sibling.id}><span>{sibling.id}</span><strong>{sibling.name}</strong><small>{sibling.className} · {sibling.section}</small><em>{sibling.status}</em></article>) : <div className={styles.empty}>No linked sibling in this mock family account.</div>}</div><div className={styles.boundary}>Family linking supports shared guardian access and consolidated billing, but each child still keeps a separate academic, welfare and attendance record.</div></>}
 
-        {tab === "school-life" && <><div className={styles.sectionHead}><div><h3>School Life</h3><p>Activities, houses and recognition remain separate from academic grading.</p></div></div><div className={styles.split}><div><span>Activities</span>{base.activities.map((item) => <strong key={item}>{item}</strong>)}</div><div><span>Awards & recognition</span>{base.awards.length ? base.awards.map((item) => <strong key={item}>{item}</strong>) : <strong>No recognition record in this mock profile</strong>}</div></div><div className={styles.infoGrid}><div><span>House</span><strong>{base.house}</strong></div><div><span>Recognition rule</span><strong>No grade conversion</strong></div></div></>}
+        {tab === "school-life" && <><div className={styles.sectionHead}><div><h3>School Life</h3><p>Activities, houses and recognition remain separate from academic grading.</p></div></div><div className={styles.split}><div><span>Activities</span>{base.activities.map((item) => <strong key={item}>{item}</strong>)}</div><div><span>Awards & recognition</span>{base.awards.length ? base.awards.map((item) => <strong key={item}>{item}</strong>) : <strong>No recognition record in this mock profile</strong>}</div></div></>}
 
-        {tab === "services" && <><div className={styles.sectionHead}><div><h3>School services & health boundary</h3><p>Operational relationships and minimum-necessary safety information only.</p></div></div><div className={styles.serviceList}><div><span>Transport</span><strong>{base.transport}</strong><small>{role === "teacher" ? "Detailed stops hidden unless assigned transport duty" : "Route relationship on record"}</small></div><div><span>Meals & Cafeteria</span><strong>{base.meals}</strong><small>Dietary/health exceptions require need-to-know access</small></div><div><span>Boarding</span><strong>{base.boarding}</strong><small>Optional school service</small></div><div><span>Medical instruction</span><strong>{role === "teacher" ? "Only actionable school-day instruction when authorized" : base.medicalInstruction}</strong><small>Do not expose diagnoses broadly</small></div></div>{role !== "teacher" && <div className={styles.healthGrid}><div><span>Blood group</span><strong>{base.bloodGroup}</strong></div><div><span>Genotype</span><strong>{base.genotype}</strong></div><div><span>Health record</span><strong>Restricted</strong></div></div>}<div className={styles.boundary}>Medical information is not a general profile feature. Production access must be minimum-necessary and separately authorized.</div></>}
+        {tab === "services" && <><div className={styles.sectionHead}><div><h3>School services & health boundary</h3><p>Operational relationships and minimum-necessary safety information only.</p></div></div><div className={styles.serviceList}><div><span>Transport</span><strong>{base.transport}</strong></div><div><span>Meals & Cafeteria</span><strong>{base.meals}</strong></div><div><span>Boarding</span><strong>{base.boarding}</strong></div><div><span>Medical instruction</span><strong>{role === "teacher" ? "Only actionable school-day instruction when authorized" : base.medicalInstruction}</strong></div></div>{role !== "teacher" && <div className={styles.healthGrid}><div><span>Blood group</span><strong>{base.bloodGroup}</strong></div><div><span>Genotype</span><strong>{base.genotype}</strong></div><div><span>Health record</span><strong>Restricted</strong></div></div>}<div className={styles.boundary}>Medical information is not a general profile feature. Production access must be minimum-necessary and separately authorized.</div></>}
 
-        {tab === "history" && <><div className={styles.sectionHead}><div><h3>Enrollment & promotion history</h3><p>Track progression without rewriting prior records.</p></div></div><div className={styles.historyLead}><span>Previous school</span><strong>{base.previousSchool}</strong></div><div className={styles.historyTable}>{base.promotionHistory.map((row) => <div key={`${row.session}-${row.className}`}><span>{row.session}</span><strong>{row.className}</strong><em>{row.outcome}</em><small>{row.note}</small></div>)}</div><div className={styles.boundary}>Transfers, withdrawals, repeats and promotions should remain auditable. Historical records should not be silently overwritten.</div></>}
+        {tab === "history" && <><div className={styles.sectionHead}><div><h3>Enrollment & promotion history</h3><p>Track progression without rewriting prior records.</p></div></div><div className={styles.historyLead}><span>Previous school</span><strong>{base.previousSchool}</strong></div><div className={styles.historyTable}>{base.promotionHistory.map((row) => <div key={`${row.session}-${row.className}`}><span>{row.session}</span><strong>{row.className}</strong><em>{row.outcome}</em><small>{row.note}</small></div>)}</div><div className={styles.boundary}>Transfers, withdrawals, repeats and promotions should remain auditable. Historical records should never be silently overwritten.</div></>}
+
+        {tab === "status" && <><div className={styles.sectionHead}><div><h3>Status, transfer & class-change workflow</h3><p>Prototype controls for promotion, transfer, withdrawal and alumni lifecycle.</p></div></div>{role === "teacher" ? <div className={styles.boundary}>Teachers can view the current enrollment state but cannot change promotion, transfer, withdrawal or alumni status.</div> : <div className={styles.workflowGrid}><label>Enrollment status<select value={enrollmentStatus} onChange={(e) => { setEnrollmentStatus(e.target.value as EnrollmentStatus); setWorkflowSaved(false); }}><option>Active</option><option>Transfer pending</option><option>Withdrawn</option><option>Alumni</option></select></label><label>Next class / destination<input value={nextClass} onChange={(e) => { setNextClass(e.target.value); setWorkflowSaved(false); }} placeholder={base.section === "Primary" ? "e.g. Primary 4" : "e.g. JSS 3A"} /></label><label>Effective session<select defaultValue="2026/2027"><option>2026/2027</option><option>2027/2028</option></select></label><label>Action type<select defaultValue="Promote"><option>Promote</option><option>Move class</option><option>Transfer out</option><option>Withdraw</option><option>Mark alumni</option></select></label><button type="button" onClick={() => setWorkflowSaved(true)}>{workflowSaved ? "Workflow saved locally" : "Save prototype workflow"}</button></div>}<div className={styles.statusCards}><article><span>Current</span><strong>{enrollmentStatus}</strong><small>{base.className}</small></article><article><span>Admission record</span><strong>{base.admissionNo}</strong><small>Never reused</small></article><article><span>History policy</span><strong>Append only</strong><small>No silent overwrite</small></article></div><div className={styles.boundary}>In production, promotion/class changes should be approved, dated and reversible through an audit trail. Alumni status should preserve historical records but remove the student from active enrollment counts.</div></>}
 
         {tab === "documents" && <><div className={styles.sectionHead}><div><h3>Documents & records</h3><p>Visibility differs by role. This prototype shows labels only, not real files.</p></div></div><div className={styles.documentList}>{visibleDocuments.length ? visibleDocuments.map((doc) => <div key={doc.name}><span>▤</span><div><strong>{doc.name}</strong><small>{doc.visibility}</small></div><em>{doc.status}</em></div>) : <div className={styles.empty}>No administrative documents are exposed to this role.</div>}</div></>}
 
@@ -193,12 +204,11 @@ export default function StudentProfileView({ studentId, role }: { studentId: str
       </div>
 
       <aside className={styles.side}>
-        <article className={styles.idCard}><span>STUDENT ID PREVIEW</span><div className={styles.idPhoto}>{initials}</div><strong>{base.name}</strong><p>{base.id} · {base.className}</p><small>{schoolProfile.name}<br />{base.campus}</small><button type="button" onClick={() => window.print()}>Print ID / profile</button></article>
-        <article><span>PROFILE COMPLETENESS</span><strong>94%</strong><p>Mock completeness across identity, guardian, academic, history and operational fields.</p></article>
-        <article><span>VISIBILITY</span><strong>{meta.label}</strong><p>{role === "teacher" ? "Assigned-class scope only." : `${base.section} leadership scope only.`}</p></article>
-        <article><span>FINANCE BOUNDARY</span><p>{base.feeVisibility}. Teachers do not receive fee balances through the general student profile.</p></article>
+        <article className={styles.idCard}><span>STUDENT ID PREVIEW</span><div className={styles.idPhoto}>{initials}</div><strong>{base.name}</strong><p>{base.admissionNo}<br />{base.className}</p><small>{schoolProfile.name}<br />{base.campus}</small><div className={styles.fakeQr}><i/><i/><i/><i/><i/><i/><i/><i/><i/></div><div className={styles.barcode}>{barcodeBars.map((digit, index) => <i key={`${digit}-${index}`} style={{width: `${2 + (Number(digit || 1) % 4)}px`}} />)}</div><em>QR / barcode prototype</em><button type="button" onClick={() => window.print()}>Print ID / profile</button></article>
+        <article><span>ADMISSION NUMBER</span><strong>{base.admissionNo}</strong><p>Stable student identifier; not reused after withdrawal, transfer or graduation.</p></article>
+        <article><span>FAMILY ACCOUNT</span><strong>{role === "teacher" ? "Restricted" : base.familyAccountId}</strong><p>Links authorized guardians, siblings and consolidated finance options.</p></article>
+        <article><span>FINANCE BOUNDARY</span><p>{base.feeVisibility}. Teachers do not receive fee balances through the general student profile.</p>{role !== "teacher" && <Link href="/finance">Open Finance Center</Link>}</article>
         <article><span>AI BOUNDARY</span><p>AI can summarize evidence and suggest questions. It must not diagnose, rank the child permanently, infer family risk, or make disciplinary decisions autonomously.</p></article>
-        <article><span>CONNECTED AREAS</span><div className={styles.sideLinks}><Link href="/awards">Awards</Link><Link href="/activities">Activities</Link><Link href="/transport">Transport</Link><Link href="/meals">Meals</Link></div></article>
       </aside>
     </section>
   </main>;
