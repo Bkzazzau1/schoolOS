@@ -11,6 +11,7 @@ import "./principal-incidents.css";
 import "./principal-ai.css";
 import "./principal-performance.css";
 import "./principal-profile.css";
+import "./principal-assignments.css";
 
 export default function PrincipalLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
