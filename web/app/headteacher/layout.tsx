@@ -11,6 +11,7 @@ import "./headteacher-guardians.css";
 import "./headteacher-incidents.css";
 import "./headteacher-ai.css";
 import "./headteacher-performance.css";
+import "./headteacher-profile.css";
 
 export default function HeadTeacherLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
