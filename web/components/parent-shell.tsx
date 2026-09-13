@@ -9,6 +9,7 @@ const nav = [
   ["My Children", "/parent/children", "◉"],
   ["Finance & Payments", "/parent/finance", "₦"],
   ["Messages", "/parent/messages", "✉"],
+  ["School Discussions", "/parent/discussions", "☵"],
   ["School Life", "/parent/school-life", "✦"],
   ["Documents & Consent", "/parent/documents", "▤"],
   ["Parent AI", "/parent/ai", "AI"],
