@@ -76,7 +76,7 @@ export default function PrincipalStudentsPage() {
       <section className="student-oversight-grid">
         <article className="principal-module-card student-directory-card">
           <header className="student-card-head">
-            <div><h2>Student directory</h2><p>Search and filter school-wide student records.</p></div>
+            <div><h2>Student directory</h2><p>Search, review quickly, or open the complete student record.</p></div>
             <div className="student-admin-filters">
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search student, ID or class..." />
               <select value={classFilter} onChange={(e) => setClassFilter(e.target.value)}><option>All classes</option><option>JSS 2A</option><option>JSS 2B</option><option>JSS 3A</option><option>SS 1A</option><option>SS 2A</option></select>
@@ -86,12 +86,15 @@ export default function PrincipalStudentsPage() {
 
           <div className="principal-student-list">
             {filtered.map((student) => (
-              <button key={student.id} className={selected.id === student.id ? "selected" : ""} onClick={() => { setSelectedId(student.id); setSaved(false); }}>
-                <span className="student-admin-id">{student.id}</span>
-                <div><strong>{student.name}</strong><small>{student.className} · Avg {student.average}% · Attendance {student.attendance}%</small></div>
-                <div className="student-list-trend"><span>{student.trend > 0 ? "+" : ""}{student.trend}%</span><small>trend</small></div>
-                <b className={`student-risk ${student.risk.toLowerCase().replaceAll(" ", "-")}`}>{student.risk}</b>
-              </button>
+              <div key={student.id} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 8, alignItems: "stretch" }}>
+                <button className={selected.id === student.id ? "selected" : ""} onClick={() => { setSelectedId(student.id); setSaved(false); }}>
+                  <span className="student-admin-id">{student.id}</span>
+                  <div><strong>{student.name}</strong><small>{student.className} · Avg {student.average}% · Attendance {student.attendance}%</small></div>
+                  <div className="student-list-trend"><span>{student.trend > 0 ? "+" : ""}{student.trend}%</span><small>trend</small></div>
+                  <b className={`student-risk ${student.risk.toLowerCase().replaceAll(" ", "-")}`}>{student.risk}</b>
+                </button>
+                <Link href={`/principal/students/${student.id}`} style={{ display: "grid", placeItems: "center", padding: "0 12px", border: "1px solid #dfe7ed", borderRadius: 10, background: "#fff", color: "#2e6078", textDecoration: "none", fontSize: 10, fontWeight: 800 }}>Profile</Link>
+              </div>
             ))}
           </div>
         </article>
@@ -123,6 +126,7 @@ export default function PrincipalStudentsPage() {
           </div>
 
           <div className="student-profile-links">
+            <Link href={`/principal/students/${selected.id}`}>Open full student profile</Link>
             <Link href="/principal/results">Open results/report</Link>
             <Link href="/principal/attendance">Attendance history</Link>
             <Link href="/principal/incidents">Incidents</Link>
