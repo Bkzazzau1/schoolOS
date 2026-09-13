@@ -42,9 +42,9 @@ const observationTimeline = [
 ];
 
 const groupSummary = [
-  { group: "Nursery 1", children: 28, attendance: 96, observations: 91, followUps: 2 },
-  { group: "Nursery 2", children: 30, attendance: 93, observations: 84, followUps: 3 },
-  { group: "Reception A", children: 26, attendance: 90, observations: 78, followUps: 4 },
+  { group: "Nursery 1", children: 28, attendance: 96, observations: 96, followUps: 2 },
+  { group: "Nursery 2", children: 30, attendance: 93, observations: 90, followUps: 3 },
+  { group: "Reception A", children: 26, attendance: 90, observations: 81, followUps: 4 },
 ];
 
 export default function HeadTeacherChildrenPage() {
@@ -101,7 +101,7 @@ export default function HeadTeacherChildrenPage() {
 
       <section className="early-children-kpis">
         <article><span>Children enrolled</span><strong>84</strong><small>Across Early Years groups</small></article>
-        <article><span>Present today</span><strong>80</strong><small>95% section attendance</small></article>
+        <article><span>Present today</span><strong>78</strong><small>93% section attendance</small></article>
         <article><span>Representative attendance</span><strong>{avgAttendance}%</strong><small>Shown child records</small></article>
         <article><span>Observation coverage</span><strong>{avgObservation}%</strong><small>Representative records</small></article>
         <article><span>Open support follow-ups</span><strong>{openSupport}</strong><small>Routine support / guardian context</small></article>
