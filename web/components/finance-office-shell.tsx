@@ -6,8 +6,11 @@ import type { ReactNode } from "react";
 
 const nav = [
   ["Dashboard","/finance-office","⌂"],
+  ["Fee Structure","/finance-office/fee-structure","▦"],
+  ["Scholarships & Discounts","/finance-office/scholarships","◇"],
   ["Smart Collections","/finance-office/collections","◈"],
   ["Payment Mandates","/finance-office/mandates","↻"],
+  ["Outstanding & Aging","/finance-office/debt-aging","◷"],
   ["Receipts","/finance-office/receipts","▧"],
   ["Student Accounts","/finance-office/accounts","₦"],
   ["Reconciliation","/finance-office/reconciliation","↔"],
@@ -28,6 +31,6 @@ export default function FinanceOfficeShell({children}:{children:ReactNode}){
       <div className="fo-boundary"><strong>FINANCE ACCESS</strong><p>Fee, transaction, approved financing and payroll-processing data only. Academic grading, private teacher notes and safeguarding records stay outside this workspace.</p></div>
       <div className="fo-user"><span>AB</span><div><strong>Mr. Ahmad Bello</strong><small>Bursar / Finance Officer</small></div></div>
     </aside>
-    <section className="fo-main"><header className="fo-top"><div><strong>Finance Operations</strong><span>Collections · Banking · Expenses · Reporting</span></div><div><button>Current term</button><button>Notifications 5</button></div></header><div className="fo-content">{children}</div></section>
-  </div>
+    <section className="fo-main"><header className="fo-top"><div><strong>Finance Operations</strong><span>Revenue Assurance · Collections · Banking · Expenses · Reporting</span></div><div><button>Current term</button><button>Notifications 5</button></div></header><div className="fo-content">{children}</div></section>
+  </div>;
 }
