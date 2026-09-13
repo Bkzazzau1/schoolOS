@@ -26,7 +26,7 @@ export default function AssignmentsPage() {
     <main className="module-shell">
       <header className="module-header">
         <div><span className="page-kicker">TEACHER · ASSIGNMENTS</span><h1>Assignments</h1><p>Create, publish, collect and mark classwork and homework.</p></div>
-        <div className="module-header-actions"><Link className="ghost-link" href="/teacher/classes">My Classes</Link><Link className="ghost-link" href="/teacher">Dashboard</Link></div>
+        <div className="module-header-actions"><Link className="ghost-link" href="/teacher/classes">My Classes</Link><Link className="ghost-link" href="/teacher/share">Share work</Link><Link className="ghost-link" href="/teacher">Dashboard</Link></div>
       </header>
 
       <section className="module-kpis">
@@ -47,7 +47,7 @@ export default function AssignmentsPage() {
             <label>Due date<input type="date" defaultValue="2026-09-15" /></label>
             <label>Maximum score<input type="number" defaultValue="20" /></label>
           </div>
-          <div className="inline-actions"><button onClick={() => setDraftInstruction("Solve 10 progressively difficult algebra questions. Show all steps. Include one short reflection explaining which question was most challenging and why.")}>Generate with Teacher AI</button><button className="secondary-btn" onClick={() => setPublished(false)}>Save draft</button><button className="primary-btn" onClick={() => setPublished(true)}>Publish assignment</button></div>
+          <div className="inline-actions"><button onClick={() => setDraftInstruction("Solve 10 progressively difficult algebra questions. Show all steps. Include one short reflection explaining which question was most challenging and why.")}>Generate with Teacher AI</button><Link className="secondary-btn" href="/teacher/share">Share assignment</Link><button className="secondary-btn" onClick={() => setPublished(false)}>Save draft</button><button className="primary-btn" onClick={() => setPublished(true)}>Publish assignment</button></div>
           {published && <div className="success-banner">Assignment published to the selected class.</div>}
         </article>
 
