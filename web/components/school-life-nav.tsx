@@ -3,13 +3,29 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-type SchoolLifeSection = "access" | "community" | "noticeboard" | "activities" | "awards" | "teaching-models";
+type SchoolLifeSection =
+  | "access"
+  | "community"
+  | "noticeboard"
+  | "activities"
+  | "events"
+  | "houses"
+  | "gallery"
+  | "excursions"
+  | "service"
+  | "awards"
+  | "teaching-models";
 
 const links: { key: SchoolLifeSection; label: string; href: string }[] = [
   { key: "access", label: "Access & Roles", href: "/school-life/access" },
   { key: "community", label: "Community", href: "/community" },
   { key: "noticeboard", label: "Noticeboard", href: "/noticeboard" },
   { key: "activities", label: "Activities & Clubs", href: "/activities" },
+  { key: "events", label: "Events & Calendar", href: "/events" },
+  { key: "houses", label: "Houses & Teams", href: "/houses" },
+  { key: "gallery", label: "Media Gallery", href: "/gallery" },
+  { key: "excursions", label: "Excursions & Consent", href: "/excursions" },
+  { key: "service", label: "Service & Volunteering", href: "/service" },
   { key: "awards", label: "Awards & Recognition", href: "/awards" },
   { key: "teaching-models", label: "Teaching Models", href: "/teaching-models" },
 ];
@@ -34,7 +50,7 @@ export default function SchoolLifeNav({ active }: { active: SchoolLifeSection })
         <div>
           <span className="school-life-kicker">SCHOOL-WIDE · BRIGHTGATE ACADEMY · KADUNA CAMPUS</span>
           <h1>School Life</h1>
-          <p>{portal ? `${portal.label} access · ${portal.scope}. ` : ""}Community, official communication, co-curricular life, recognition and flexible teaching structure.</p>
+          <p>{portal ? `${portal.label} access · ${portal.scope}. ` : ""}Community, official communication, activities, events, houses, media, trips, service, recognition and flexible teaching structure.</p>
         </div>
         <Link className="school-life-back" href={portal?.returnHref ?? "/"}>{portal ? `Back to ${portal.label}` : "Back to SchoolOS"}</Link>
       </header>
