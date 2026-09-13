@@ -20,9 +20,9 @@ type GroupPerformance = {
 type TargetKey = "attendance" | "observations" | "routines" | "planning" | "guardians";
 
 const groups: GroupPerformance[] = [
-  { group: "Nursery 1", children: 28, attendance: 96, observations: 91, routines: 97, planning: 96, guardianEngagement: 94, reportReadiness: 96, evidenceQuality: 93, signal: "Strong" },
-  { group: "Nursery 2", children: 30, attendance: 93, observations: 84, routines: 93, planning: 88, guardianEngagement: 90, reportReadiness: 88, evidenceQuality: 86, signal: "On track" },
-  { group: "Reception A", children: 26, attendance: 90, observations: 78, routines: 88, planning: 82, guardianEngagement: 86, reportReadiness: 78, evidenceQuality: 80, signal: "Review" },
+  { group: "Nursery 1", children: 28, attendance: 96, observations: 96, routines: 97, planning: 96, guardianEngagement: 94, reportReadiness: 96, evidenceQuality: 93, signal: "Strong" },
+  { group: "Nursery 2", children: 30, attendance: 93, observations: 90, routines: 93, planning: 88, guardianEngagement: 90, reportReadiness: 88, evidenceQuality: 86, signal: "On track" },
+  { group: "Reception A", children: 26, attendance: 90, observations: 81, routines: 88, planning: 82, guardianEngagement: 86, reportReadiness: 78, evidenceQuality: 80, signal: "Review" },
 ];
 
 const termTrend = [
@@ -30,8 +30,8 @@ const termTrend = [
   { week: "W2", attendance: 95, observations: 81, routines: 92, planning: 85 },
   { week: "W3", attendance: 94, observations: 84, routines: 91, planning: 87 },
   { week: "W4", attendance: 93, observations: 86, routines: 92, planning: 89 },
-  { week: "W5", attendance: 93, observations: 84, routines: 93, planning: 89 },
-  { week: "W6", attendance: 93, observations: 84, routines: 93, planning: 89 },
+  { week: "W5", attendance: 93, observations: 87, routines: 93, planning: 89 },
+  { week: "W6", attendance: 93, observations: 89, routines: 93, planning: 89 },
 ];
 
 const developmentalEvidence = [
@@ -94,7 +94,7 @@ export default function HeadTeacherPerformancePage() {
 
       <section className="early-performance-kpis">
         <article><span>Attendance</span><strong>{section.attendance}%</strong><small>Across three groups</small></article>
-        <article><span>Observation coverage</span><strong>{section.observations}%</strong><small>Evidence cycle</small></article>
+        <article><span>Observation coverage</span><strong>{section.observations}%</strong><small>Current-cycle group average</small></article>
         <article><span>Routine stability</span><strong>{section.routines}%</strong><small>Daily operating rhythm</small></article>
         <article><span>Planning readiness</span><strong>{section.planning}%</strong><small>Weekly activities</small></article>
         <article><span>Guardian engagement</span><strong>{section.guardian}%</strong><small>Read / reply / follow-up</small></article>
