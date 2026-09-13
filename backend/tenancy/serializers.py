@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Campus, Membership, Role, SchoolSection, Tenant
+from .models import Campus, LeadershipAssignment, Membership, Role, SchoolSection, Tenant
 
 
 class CampusSerializer(serializers.ModelSerializer):
@@ -29,6 +29,30 @@ class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ["id", "tenant", "campus", "section", "scope_label", "role", "status", "created_at"]
+
+
+class LeadershipAssignmentSerializer(serializers.ModelSerializer):
+    membership = MembershipSerializer(read_only=True)
+    section = SchoolSectionSerializer(read_only=True)
+
+    class Meta:
+        model = LeadershipAssignment
+        fields = [
+            "id",
+            "tenant",
+            "campus",
+            "section",
+            "membership",
+            "title",
+            "level",
+            "department_name",
+            "reports_to",
+            "is_primary",
+            "is_active",
+            "starts_on",
+            "ends_on",
+            "created_at",
+        ]
 
 
 class TenantSerializer(serializers.ModelSerializer):
