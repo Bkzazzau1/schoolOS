@@ -6,6 +6,7 @@ import "./principal-students.css";
 import "./principal-attendance.css";
 import "./principal-results.css";
 import "./principal-timetable.css";
+import "./principal-communication.css";
 
 export default function PrincipalLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
