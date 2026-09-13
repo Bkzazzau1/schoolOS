@@ -1,0 +1,27 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import SchoolLifeNav from "../../components/school-life-nav";
+import "../school-life.css";
+
+type Project = { id:string; title:string; type:string; audience:string; coordinator:string; date:string; participants:number; hours:number; status:"Planned"|"Active"|"Completed"; beneficiary:string; note:string };
+
+const seed:Project[]=[
+  {id:"SV-001",title:"School Environment Clean-Up",type:"Service",audience:"JSS 2 + JSS 3",coordinator:"Environmental Club",date:"19 Sep 2026",participants:74,hours:148,status:"Planned",beneficiary:"School community",note:"Supervised campus clean-up and waste-sorting activity."},
+  {id:"SV-002",title:"Primary Reading Buddies",type:"Peer support",audience:"Primary 5–6",coordinator:"Primary Literacy Team",date:"Weekly",participants:28,hours:84,status:"Active",beneficiary:"Primary 1–2 readers",note:"Older pupils support younger readers in supervised short sessions."},
+  {id:"SV-003",title:"Community Food Drive",type:"Community support",audience:"Whole school families",coordinator:"School Community Committee",date:"25 Sep 2026",participants:112,hours:0,status:"Active",beneficiary:"Local community partners",note:"Voluntary donation campaign coordinated with approved community organizations."},
+  {id:"SV-004",title:"Tree Planting Day",type:"Environment",audience:"Secondary + clubs",coordinator:"Science Department",date:"5 Sep 2026",participants:46,hours:138,status:"Completed",beneficiary:"School environment",note:"Students and staff planted and labelled trees around the campus."},
+];
+
+export default function ServicePage(){
+  const [status,setStatus]=useState("All statuses");
+  const [query,setQuery]=useState("");
+  const [verified,setVerified]=useState<string[]>(["SV-004"]);
+  const visible=useMemo(()=>seed.filter(p=>(status==="All statuses"||p.status===status)&&`${p.title} ${p.audience} ${p.coordinator}`.toLowerCase().includes(query.toLowerCase())),[status,query]);
+  return <main className="school-life-page">
+    <SchoolLifeNav active="service" />
+    <section className="school-life-scope"><div><strong>Community Service & Volunteering</strong><span>Participation, contribution and supervised service</span></div><p>Plan school and community projects, coordinators, participants and service hours while keeping volunteering separate from exam grades and compulsory punishment.</p></section>
+    <section className="school-life-stat-grid"><article className="school-life-stat"><span>Projects</span><strong>{seed.length}</strong><small>Representative term activities</small></article><article className="school-life-stat"><span>Participants</span><strong>260</strong><small>Across current mock projects</small></article><article className="school-life-stat"><span>Recorded hours</span><strong>370</strong><small>Project participation hours</small></article><article className="school-life-stat"><span>Active projects</span><strong>{seed.filter(p=>p.status==="Active").length}</strong><small>Currently running</small></article><article className="school-life-stat"><span>Verified records</span><strong>{verified.length}</strong><small>Prototype local review</small></article></section>
+    <section className="school-life-grid"><article className="school-life-card"><div className="school-life-section-head"><div><h2>Service projects</h2><p>Recognize contribution without converting volunteering into academic attainment.</p></div></div><div className="school-life-filters"><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search project, audience or coordinator..."/><select value={status} onChange={e=>setStatus(e.target.value)}><option>All statuses</option><option>Planned</option><option>Active</option><option>Completed</option></select></div><div className="activity-list">{visible.map(p=>{const isVerified=verified.includes(p.id);return <div className="activity-row" key={p.id}><div className="activity-icon">♡</div><div><div className="activity-meta"><span>{p.type}</span><span>{p.audience}</span><span>{p.status}</span></div><h3>{p.title}</h3><p>{p.date} · {p.coordinator} · {p.participants} participants</p><p>{p.note}</p><small>Beneficiary: {p.beneficiary} · {p.hours ? `${p.hours} recorded hours` : "Contribution-based activity"}</small><div className="notice-actions" style={{marginTop:8}}><button onClick={()=>setVerified(c=>c.includes(p.id)?c.filter(id=>id!==p.id):[...c,p.id])}>{isVerified?"Reopen verification":"Verify record"}</button></div></div><span className="activity-status">{isVerified?"Verified":p.status}</span></div>})}</div></article><aside className="school-life-sidebar"><article className="school-life-card"><span className="school-life-kicker">SERVICE PRINCIPLES</span><div className="school-life-policy-list"><div><strong>Voluntary where appropriate</strong><small>Community-service programmes should follow school policy and age-appropriate participation.</small></div><div><strong>Supervised</strong><small>Named staff/coordinators own safety and attendance.</small></div><div><strong>Recognizable, not academic</strong><small>Service can support awards/certificates but should not silently alter grades.</small></div></div></article><article className="school-life-card"><span className="school-life-kicker">CONNECTED MODULES</span><p style={{margin:"6px 0 0",color:"#69768a",fontSize:12,lineHeight:1.65}}>Completed projects can feed Community posts, Awards & Recognition, Houses/Teams points and the Media Gallery after appropriate review.</p></article></aside></section>
+  </main>;
+}
