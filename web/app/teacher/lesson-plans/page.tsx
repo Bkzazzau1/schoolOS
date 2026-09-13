@@ -55,6 +55,7 @@ export default function LessonPlansPage() {
         <div className="module-top-actions">
           <Link href="/teacher">Dashboard</Link>
           <Link href="/teacher/syllabus">Open syllabus</Link>
+          <Link href="/teacher/share">Send / share work</Link>
         </div>
       </header>
 
@@ -90,6 +91,7 @@ export default function LessonPlansPage() {
           <label>Resources<textarea value={resources} onChange={(e) => setResources(e.target.value)} placeholder="Books, worksheets, equipment, links or files" /></label>
 
           <div className="editor-actions">
+            <Link className="secondary-action" href="/teacher/share">Share with principal / colleague</Link>
             <button className="secondary-action" onClick={saveDraft}>Save draft</button>
             <button className="primary-action" onClick={submitPlan}>Submit for approval</button>
           </div>
