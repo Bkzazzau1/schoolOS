@@ -4,156 +4,28 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 type Risk = "Strong" | "Stable" | "Watch" | "At risk";
-
-type Student = {
-  id: string;
-  name: string;
-  className: string;
-  average: number;
-  attendance: number;
-  trend: number;
-  behaviour: "Excellent" | "Good" | "Needs attention";
-  risk: Risk;
-  incidents: number;
-  interventions: number;
-  guardian: string;
-  concern: string;
-};
+type Student = { id:string; name:string; className:string; average:number; attendance:number; trend:number; behaviour:"Excellent"|"Good"|"Needs attention"; risk:Risk; incidents:number; interventions:number; guardian:string; concern:string };
 
 const students: Student[] = [
-  { id: "STU-001", name: "Student Alpha", className: "JSS 2A", average: 86, attendance: 96, trend: 4.2, behaviour: "Excellent", risk: "Strong", incidents: 0, interventions: 0, guardian: "Guardian A", concern: "No current concern" },
-  { id: "STU-002", name: "Student Beta", className: "JSS 2A", average: 61, attendance: 88, trend: -3.1, behaviour: "Good", risk: "Watch", incidents: 1, interventions: 1, guardian: "Guardian B", concern: "Algebra performance has declined across two assessments" },
-  { id: "STU-003", name: "Student Gamma", className: "JSS 2B", average: 48, attendance: 79, trend: -8.4, behaviour: "Needs attention", risk: "At risk", incidents: 2, interventions: 2, guardian: "Guardian C", concern: "Low attendance and academic decline require coordinated follow-up" },
-  { id: "STU-004", name: "Student Delta", className: "JSS 3A", average: 91, attendance: 98, trend: 6.0, behaviour: "Excellent", risk: "Strong", incidents: 0, interventions: 0, guardian: "Guardian D", concern: "Strong performance across subjects" },
-  { id: "STU-005", name: "Student Epsilon", className: "SS 1A", average: 68, attendance: 91, trend: -1.9, behaviour: "Good", risk: "Stable", incidents: 0, interventions: 1, guardian: "Guardian E", concern: "Physics and Further Mathematics slightly below target" },
-  { id: "STU-006", name: "Student Zeta", className: "SS 2A", average: 74, attendance: 93, trend: 2.1, behaviour: "Good", risk: "Stable", incidents: 0, interventions: 0, guardian: "Guardian F", concern: "No major concern" },
+  { id:"STU-001", name:"Maryam Abdullahi", className:"JSS 2A", average:86, attendance:96, trend:4.2, behaviour:"Excellent", risk:"Strong", incidents:0, interventions:0, guardian:"Alhaji Abdullahi Musa", concern:"No current concern" },
+  { id:"STU-002", name:"Ibrahim Sani", className:"JSS 2A", average:61, attendance:88, trend:-3.1, behaviour:"Good", risk:"Watch", incidents:1, interventions:1, guardian:"Alhaji Sani Ibrahim", concern:"Mathematics performance has declined across two assessments" },
+  { id:"STU-003", name:"Yusuf Bello", className:"JSS 2B", average:48, attendance:79, trend:-8.4, behaviour:"Needs attention", risk:"At risk", incidents:2, interventions:2, guardian:"Alhaji Musa Bello", concern:"Low attendance and academic decline require coordinated follow-up" },
+  { id:"STU-004", name:"Fatima Musa", className:"JSS 3A", average:91, attendance:98, trend:6.0, behaviour:"Excellent", risk:"Strong", incidents:0, interventions:0, guardian:"Hajiya Aisha Musa", concern:"Strong performance across subjects" },
+  { id:"STU-005", name:"Abdullahi Umar", className:"SS 1A", average:68, attendance:91, trend:-1.9, behaviour:"Good", risk:"Stable", incidents:0, interventions:1, guardian:"Alhaji Umar Abdullahi", concern:"Physics and Further Mathematics slightly below target" },
+  { id:"STU-006", name:"Zainab Aliyu", className:"SS 2A", average:74, attendance:93, trend:2.1, behaviour:"Good", risk:"Stable", incidents:0, interventions:0, guardian:"Alhaji Aliyu Ibrahim", concern:"No major concern" },
 ];
 
-export default function PrincipalStudentsPage() {
-  const [query, setQuery] = useState("");
-  const [classFilter, setClassFilter] = useState("All classes");
-  const [riskFilter, setRiskFilter] = useState("All statuses");
-  const [selectedId, setSelectedId] = useState(students[2].id);
-  const [note, setNote] = useState("");
-  const [saved, setSaved] = useState(false);
-
-  const filtered = useMemo(() => students.filter((student) => {
-    const matchQuery = `${student.name} ${student.id} ${student.className} ${student.risk}`.toLowerCase().includes(query.toLowerCase());
-    const matchClass = classFilter === "All classes" || student.className === classFilter;
-    const matchRisk = riskFilter === "All statuses" || student.risk === riskFilter;
-    return matchQuery && matchClass && matchRisk;
-  }), [query, classFilter, riskFilter]);
-
-  const selected = students.find((student) => student.id === selectedId) ?? students[0];
-  const atRisk = students.filter((student) => student.risk === "At risk").length;
-  const watch = students.filter((student) => student.risk === "Watch").length;
-  const attendanceRisk = students.filter((student) => student.attendance < 85).length;
-  const behaviourFlags = students.filter((student) => student.behaviour === "Needs attention").length;
-
-  return (
-    <main className="principal-module-shell principal-students-page">
-      <header className="principal-module-header">
-        <div>
-          <span className="page-kicker">PRINCIPAL · STUDENTS</span>
-          <h1>Student Oversight</h1>
-          <p>School-wide academic, attendance, behaviour and intervention oversight.</p>
-        </div>
-        <div className="principal-module-actions">
-          <Link href="/principal">Dashboard</Link>
-          <Link href="/principal/academics">Academics</Link>
-          <Link href="/principal/results">Results & Reports</Link>
-        </div>
-      </header>
-
-      <section className="student-overview-kpis">
-        <article><span>Active students</span><strong>438</strong><small>Across current campus</small></article>
-        <article><span>At risk</span><strong>{atRisk}</strong><small>Prototype flagged students</small></article>
-        <article><span>Watch list</span><strong>{watch}</strong><small>Needs monitoring</small></article>
-        <article><span>Attendance risk</span><strong>{attendanceRisk}</strong><small>Below 85%</small></article>
-        <article><span>Behaviour flags</span><strong>{behaviourFlags}</strong><small>Needs attention</small></article>
-      </section>
-
-      <section className="student-oversight-grid">
-        <article className="principal-module-card student-directory-card">
-          <header className="student-card-head">
-            <div><h2>Student directory</h2><p>Search, review quickly, or open the complete student record.</p></div>
-            <div className="student-admin-filters">
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search student, ID or class..." />
-              <select value={classFilter} onChange={(e) => setClassFilter(e.target.value)}><option>All classes</option><option>JSS 2A</option><option>JSS 2B</option><option>JSS 3A</option><option>SS 1A</option><option>SS 2A</option></select>
-              <select value={riskFilter} onChange={(e) => setRiskFilter(e.target.value)}><option>All statuses</option><option>Strong</option><option>Stable</option><option>Watch</option><option>At risk</option></select>
-            </div>
-          </header>
-
-          <div className="principal-student-list">
-            {filtered.map((student) => (
-              <div key={student.id} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 8, alignItems: "stretch" }}>
-                <button className={selected.id === student.id ? "selected" : ""} onClick={() => { setSelectedId(student.id); setSaved(false); }}>
-                  <span className="student-admin-id">{student.id}</span>
-                  <div><strong>{student.name}</strong><small>{student.className} · Avg {student.average}% · Attendance {student.attendance}%</small></div>
-                  <div className="student-list-trend"><span>{student.trend > 0 ? "+" : ""}{student.trend}%</span><small>trend</small></div>
-                  <b className={`student-risk ${student.risk.toLowerCase().replaceAll(" ", "-")}`}>{student.risk}</b>
-                </button>
-                <Link href={`/principal/students/${student.id}`} style={{ display: "grid", placeItems: "center", padding: "0 12px", border: "1px solid #dfe7ed", borderRadius: 10, background: "#fff", color: "#2e6078", textDecoration: "none", fontSize: 10, fontWeight: 800 }}>Profile</Link>
-              </div>
-            ))}
-          </div>
-        </article>
-
-        <aside className="principal-module-card principal-student-profile">
-          <div className="student-profile-heading">
-            <span className="student-admin-id">{selected.id}</span>
-            <b className={`student-risk ${selected.risk.toLowerCase().replaceAll(" ", "-")}`}>{selected.risk}</b>
-          </div>
-          <h2>{selected.name}</h2>
-          <p>{selected.className} · {selected.guardian}</p>
-
-          <div className="student-profile-metrics">
-            <div><span>Average</span><strong>{selected.average}%</strong></div>
-            <div><span>Attendance</span><strong>{selected.attendance}%</strong></div>
-            <div><span>Trend</span><strong>{selected.trend > 0 ? "+" : ""}{selected.trend}%</strong></div>
-            <div><span>Incidents</span><strong>{selected.incidents}</strong></div>
-          </div>
-
-          <div className="student-context-box">
-            <span>Principal attention</span>
-            <strong>{selected.concern}</strong>
-          </div>
-
-          <div className="student-profile-lines">
-            <div><span>Behaviour</span><strong>{selected.behaviour}</strong></div>
-            <div><span>Interventions</span><strong>{selected.interventions}</strong></div>
-            <div><span>Guardian</span><strong>{selected.guardian}</strong></div>
-          </div>
-
-          <div className="student-profile-links">
-            <Link href={`/principal/students/${selected.id}`}>Open full student profile</Link>
-            <Link href="/principal/results">Open results/report</Link>
-            <Link href="/principal/attendance">Attendance history</Link>
-            <Link href="/principal/incidents">Incidents</Link>
-            <Link href="/principal/communication">Contact guardian</Link>
-          </div>
-
-          <label className="principal-student-note">Principal note<textarea value={note} onChange={(e) => { setNote(e.target.value); setSaved(false); }} placeholder="Add an internal intervention or follow-up note..." /></label>
-          <button className="principal-student-save" onClick={() => setSaved(true)}>{saved ? "Note saved" : "Save note"}</button>
-        </aside>
-      </section>
-
-      <section className="principal-student-bottom-grid">
-        <article className="principal-module-card">
-          <h2>Priority intervention queue</h2>
-          <div className="student-intervention-list">
-            <div><span className="student-risk at-risk">At risk</span><strong>Student Gamma · JSS 2B</strong><p>Attendance 79%, average 48%, two incidents. Coordinate teacher + guardian intervention.</p><Link href="/principal/communication">Start follow-up</Link></div>
-            <div><span className="student-risk watch">Watch</span><strong>Student Beta · JSS 2A</strong><p>Recent performance decline despite acceptable attendance. Review assessment pattern.</p><Link href="/principal/results">Review performance</Link></div>
-            <div><span className="student-risk stable">Stable</span><strong>Student Epsilon · SS 1A</strong><p>Overall stable but below target in Physics and Further Mathematics.</p><Link href="/principal/academics">Check class context</Link></div>
-          </div>
-        </article>
-
-        <article className="principal-module-card">
-          <h2>Principal AI student insight</h2>
-          <p className="student-ai-copy">The highest combined prototype risk is concentrated in JSS 2B. Academic decline and attendance weakness are appearing together, so intervention should consider both learning support and attendance follow-up rather than treating the issues separately.</p>
-          <div className="student-ai-actions"><Link href="/principal/ai">Ask Principal AI</Link><Link href="/principal/academics">Open class analysis</Link></div>
-        </article>
-      </section>
-    </main>
-  );
+export default function PrincipalStudentsPage(){
+  const [query,setQuery]=useState(""); const [classFilter,setClassFilter]=useState("All classes"); const [riskFilter,setRiskFilter]=useState("All statuses"); const [selectedId,setSelectedId]=useState(students[2].id); const [note,setNote]=useState(""); const [saved,setSaved]=useState(false);
+  const filtered=useMemo(()=>students.filter(student=>`${student.name} ${student.id} ${student.className} ${student.risk}`.toLowerCase().includes(query.toLowerCase())&&(classFilter==="All classes"||student.className===classFilter)&&(riskFilter==="All statuses"||student.risk===riskFilter)),[query,classFilter,riskFilter]);
+  const selected=students.find(student=>student.id===selectedId)??students[0]; const atRisk=students.filter(s=>s.risk==="At risk").length; const watch=students.filter(s=>s.risk==="Watch").length; const attendanceRisk=students.filter(s=>s.attendance<85).length; const behaviourFlags=students.filter(s=>s.behaviour==="Needs attention").length;
+  return <main className="principal-module-shell principal-students-page">
+    <header className="principal-module-header"><div><span className="page-kicker">PRINCIPAL · STUDENTS</span><h1>Student Oversight</h1><p>Section-wide academic, attendance, behaviour and intervention oversight.</p></div><div className="principal-module-actions"><Link href="/principal">Dashboard</Link><Link href="/principal/academics">Academics</Link><Link href="/principal/results">Results & Reports</Link></div></header>
+    <section className="student-overview-kpis"><article><span>Active students</span><strong>438</strong><small>Current Secondary section</small></article><article><span>At risk</span><strong>{atRisk}</strong><small>Prototype flagged students</small></article><article><span>Watch list</span><strong>{watch}</strong><small>Needs monitoring</small></article><article><span>Attendance risk</span><strong>{attendanceRisk}</strong><small>Below 85%</small></article><article><span>Behaviour flags</span><strong>{behaviourFlags}</strong><small>Needs attention</small></article></section>
+    <section className="student-oversight-grid">
+      <article className="principal-module-card student-directory-card"><header className="student-card-head"><div><h2>Student directory</h2><p>Search, review quickly, or open the complete student record.</p></div><div className="student-admin-filters"><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search student, ID or class..."/><select value={classFilter} onChange={e=>setClassFilter(e.target.value)}><option>All classes</option><option>JSS 2A</option><option>JSS 2B</option><option>JSS 3A</option><option>SS 1A</option><option>SS 2A</option></select><select value={riskFilter} onChange={e=>setRiskFilter(e.target.value)}><option>All statuses</option><option>Strong</option><option>Stable</option><option>Watch</option><option>At risk</option></select></div></header><div className="principal-student-list">{filtered.map(student=><div key={student.id} style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) auto",gap:8,alignItems:"stretch"}}><button className={selected.id===student.id?"selected":""} onClick={()=>{setSelectedId(student.id);setSaved(false)}}><span className="student-admin-id">{student.id}</span><div><strong>{student.name}</strong><small>{student.className} · Avg {student.average}% · Attendance {student.attendance}%</small></div><div className="student-list-trend"><span>{student.trend>0?"+":""}{student.trend}%</span><small>trend</small></div><b className={`student-risk ${student.risk.toLowerCase().replaceAll(" ","-")}`}>{student.risk}</b></button><Link href={`/principal/students/${student.id}`} style={{display:"grid",placeItems:"center",padding:"0 12px",border:"1px solid #dfe7ed",borderRadius:10,background:"#fff",color:"#2e6078",textDecoration:"none",fontSize:10,fontWeight:800}}>Profile</Link></div>)}</div></article>
+      <aside className="principal-module-card principal-student-profile"><div className="student-profile-heading"><span className="student-admin-id">{selected.id}</span><b className={`student-risk ${selected.risk.toLowerCase().replaceAll(" ","-")}`}>{selected.risk}</b></div><h2>{selected.name}</h2><p>{selected.className} · {selected.guardian}</p><div className="student-profile-metrics"><div><span>Average</span><strong>{selected.average}%</strong></div><div><span>Attendance</span><strong>{selected.attendance}%</strong></div><div><span>Trend</span><strong>{selected.trend>0?"+":""}{selected.trend}%</strong></div><div><span>Incidents</span><strong>{selected.incidents}</strong></div></div><div className="student-context-box"><span>Principal attention</span><strong>{selected.concern}</strong></div><div className="student-profile-lines"><div><span>Behaviour</span><strong>{selected.behaviour}</strong></div><div><span>Interventions</span><strong>{selected.interventions}</strong></div><div><span>Guardian</span><strong>{selected.guardian}</strong></div></div><div className="student-profile-links"><Link href={`/principal/students/${selected.id}`}>Open full student profile</Link><Link href="/principal/results">Open results/report</Link><Link href="/principal/attendance">Attendance history</Link><Link href="/principal/incidents">Incidents</Link><Link href="/principal/communication">Contact guardian</Link></div><label className="principal-student-note">Principal note<textarea value={note} onChange={e=>{setNote(e.target.value);setSaved(false)}} placeholder="Add an internal intervention or follow-up note..."/></label><button className="principal-student-save" onClick={()=>setSaved(true)}>{saved?"Note saved":"Save note"}</button></aside>
+    </section>
+    <section className="principal-student-bottom-grid"><article className="principal-module-card"><h2>Priority intervention queue</h2><div className="student-intervention-list"><div><span className="student-risk at-risk">At risk</span><strong>Yusuf Bello · JSS 2B</strong><p>Attendance 79%, average 48%, two incidents. Coordinate teacher + guardian intervention.</p><Link href="/principal/communication">Start follow-up</Link></div><div><span className="student-risk watch">Watch</span><strong>Ibrahim Sani · JSS 2A</strong><p>Recent performance decline despite acceptable attendance. Review assessment pattern.</p><Link href="/principal/results">Review performance</Link></div><div><span className="student-risk stable">Stable</span><strong>Abdullahi Umar · SS 1A</strong><p>Overall stable but below target in Physics and Further Mathematics.</p><Link href="/principal/academics">Check class context</Link></div></div></article><article className="principal-module-card"><h2>Principal AI student insight</h2><p className="student-ai-copy">The strongest combined prototype review signal is in JSS 2B. Academic decline and attendance weakness are appearing together, so intervention should consider both learning support and attendance follow-up rather than treating the issues separately.</p><div className="student-ai-actions"><Link href="/principal/ai">Ask Principal AI</Link><Link href="/principal/academics">Open class analysis</Link></div></article></section>
+  </main>;
 }
