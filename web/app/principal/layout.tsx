@@ -10,6 +10,7 @@ import "./principal-communication.css";
 import "./principal-incidents.css";
 import "./principal-ai.css";
 import "./principal-performance.css";
+import "./principal-profile.css";
 
 export default function PrincipalLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
