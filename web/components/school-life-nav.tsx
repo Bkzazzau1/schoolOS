@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 type SchoolLifeSection =
@@ -51,6 +52,10 @@ const portalMeta: Record<string, { label: string; scope: string; returnHref: str
 };
 
 export default function SchoolLifeNav({ active }: { active: SchoolLifeSection }) {
+  return <Suspense fallback={<p role="status">Loading School Life navigation...</p>}><SchoolLifeNavContent active={active} /></Suspense>;
+}
+
+function SchoolLifeNavContent({ active }: { active: SchoolLifeSection }) {
   const params = useSearchParams();
   const portalKey = params.get("portal") ?? "";
   const portal = portalMeta[portalKey];

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import SchoolLifeNav from "../../../components/school-life-nav";
 import "../../school-life.css";
@@ -151,6 +152,10 @@ const fallback: RolePolicy = {
 };
 
 export default function SchoolLifeAccessPage() {
+  return <Suspense fallback={<main className="school-life-page"><p role="status">Loading School Life access...</p></main>}><SchoolLifeAccessContent /></Suspense>;
+}
+
+function SchoolLifeAccessContent() {
   const params = useSearchParams();
   const portal = params.get("portal") ?? "";
   const policy = policies[portal] ?? fallback;
