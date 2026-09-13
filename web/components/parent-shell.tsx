@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 const nav = [
   ["Home", "/parent", "⌂"],
   ["My Children", "/parent/children", "◉"],
+  ["Learning Progress", "/parent/progress", "↗"],
   ["Attendance", "/parent/attendance", "✓"],
   ["Finance & Payments", "/parent/finance", "₦"],
   ["Messages", "/parent/messages", "✉"],
