@@ -3,14 +3,15 @@
    (see components/school-theme.tsx); every other school-* token below is
    derived from them with color-mix() so the whole app re-skins together. */
 :root {
-  --school-primary: #153d34;
-  --school-accent: #c9f28d;
+  --school-hue: 145;
+  --school-primary: hsl(var(--school-hue) 49% 16%);
+  --school-accent: hsl(var(--school-hue) 80% 75%);
   --school-ink: var(--school-primary);
   --school-primary-soft: color-mix(in srgb, var(--school-primary) 85%, white 15%);
   --school-primary-elevated: color-mix(in srgb, var(--school-primary) 95%, white 5%);
   --school-primary-mid: color-mix(in srgb, var(--school-primary) 70%, white 30%);
   --school-primary-tint: color-mix(in srgb, var(--school-primary) 35%, white 65%);
-  --school-muted-ink: color-mix(in srgb, var(--school-primary) 55%, #63736c 45%);
+  --school-muted-ink: color-mix(in srgb, var(--school-primary) 55%, hsl(var(--school-hue) 7% 42%) 45%);
   --school-button: color-mix(in srgb, var(--school-primary) 88%, var(--school-accent) 12%);
   --school-button-hover: color-mix(in srgb, var(--school-button) 88%, black 12%);
   --school-focus: color-mix(in srgb, var(--school-primary) 40%, var(--school-accent) 60%);
@@ -18,11 +19,11 @@
   --school-accent-wash-soft: color-mix(in srgb, var(--school-accent) 10%, white 90%);
   --school-accent-wash-border: color-mix(in srgb, var(--school-accent) 35%, white 65%);
 
-  --os-ink: #183d35;
-  --os-muted: #63736c;
-  --os-paper: #f5f5ef;
-  --os-line: #dfe5dc;
-  --os-mint: #c9f28d;
+  --os-ink: hsl(var(--school-hue) 44% 17%);
+  --os-muted: hsl(var(--school-hue) 7% 42%);
+  --os-paper: hsl(var(--school-hue) 23% 95%);
+  --os-line: hsl(var(--school-hue) 15% 88%);
+  --os-mint: hsl(var(--school-hue) 80% 75%);
   --os-shadow: 0 5px 24px #19392d08;
 }
 body { background: var(--os-paper); color: var(--school-ink); -webkit-font-smoothing: antialiased; }
@@ -51,14 +52,14 @@ body :is(.teacher-school-card,.principal-school-card,.headmaster-scope-card,.own
   background: #ffffff06; border-color: #ffffff20; border-radius: 14px;
 }
 body :is(.teacher-topbar,.teacher-module-topbar,.principal-topbar,.headmaster-topbar,.headteacher-topbar,.owner-shell-topbar,.topbar) {
-  background: #fffefa; border-bottom: 1px solid var(--os-line); box-shadow: none;
+  background: hsl(var(--school-hue) 100% 99%); border-bottom: 1px solid var(--os-line); box-shadow: none;
 }
 body :is(.teacher-content,.principal-content,.headmaster-content,.owner-shell-content) { padding-bottom: 110px; }
 body :is(.card,.module-card,.class-card,.headteacher-card,.principal-module-card,.headmaster-module-card,.owner-card,.owner-module-card,.school-life-card) {
   border-color: var(--os-line); border-radius: 18px; box-shadow: var(--os-shadow);
 }
 body :is(.teacher-stat,.stat-card,.school-life-stat) {
-  border: 1px solid var(--os-line); border-radius: 17px; box-shadow: var(--os-shadow); background: #fffefa;
+  border: 1px solid var(--os-line); border-radius: 17px; box-shadow: var(--os-shadow); background: hsl(var(--school-hue) 100% 99%);
 }
 body :is(.teacher-stat,.stat-card,.school-life-stat) > strong { color: var(--school-ink); letter-spacing: -1.3px; font-size: 30px; }
 body :is(.principal-hero,.headmaster-hero,.headteacher-hero,.ai-brief) {
@@ -70,7 +71,7 @@ body :is(.page-heading,.school-life-header) h1 { color: var(--school-ink); lette
 body :is(.school-life-primary,.primary-btn,.school-life-section-head button) { background: var(--school-button); color: #fff; border-radius: 10px; }
 body .school-life-page { padding-bottom: 90px; }
 body .school-life-header { padding-bottom: 12px; }
-body .school-life-nav { background: #fffefa; border-color: var(--os-line); padding: 7px; box-shadow: var(--os-shadow); }
+body .school-life-nav { background: hsl(var(--school-hue) 100% 99%); border-color: var(--os-line); padding: 7px; box-shadow: var(--os-shadow); }
 body .school-life-nav a.active { background: var(--school-button); color: #fff; }
 body .school-life-scope { background: var(--school-accent-wash); border-color: var(--school-accent-wash-border); color: var(--school-ink); }
 body .school-life-card h2 { letter-spacing: -.5px; }
@@ -82,22 +83,22 @@ body .mock-login-story > * { position: relative; }
 body .mock-login-brand > span { background: var(--school-accent); color: var(--school-ink); border-radius: 14px 14px 14px 4px; }
 body .mock-login-brand b, body .mock-login-copy > span { color: var(--school-accent); }
 body .mock-login-copy h1 { font-size: clamp(40px,4.3vw,68px); font-weight: 600; letter-spacing: -2.6px; line-height: 1.04; margin: 22px 0; }
-body .mock-login-copy > p { color: #c1d1c8; font-size: 16px; line-height: 1.8; }
+body .mock-login-copy > p { color: hsl(var(--school-hue) 15% 79%); font-size: 16px; line-height: 1.8; }
 body .mock-role-summary { gap: 12px; margin-top: 32px; }
 body .mock-role-summary > div { border-color: #ffffff20; background: #ffffff05; border-radius: 13px; padding: 16px; }
 body .mock-login-main { padding: clamp(24px,4vw,60px); }
 body .mock-login-head h2 { font-size: 34px; font-weight: 650; letter-spacing: -1.2px; color: var(--school-ink); }
 body .mock-login-head > span { color: var(--school-muted-ink); letter-spacing: .17em; }
-body .mock-role-card { background: #fffefa; border: 1px solid var(--os-line); border-radius: 14px; padding: 15px; box-shadow: none; }
+body .mock-role-card { background: hsl(var(--school-hue) 100% 99%); border: 1px solid var(--os-line); border-radius: 14px; padding: 15px; box-shadow: none; }
 body .mock-role-card:hover { border-color: var(--school-primary-tint); background: var(--school-accent-wash-soft); }
 body .mock-role-card.active { border-color: var(--school-primary-mid); background: var(--school-accent-wash); box-shadow: inset 0 0 0 1px var(--school-primary-mid); }
 body .mock-role-card strong { color: var(--school-ink); }
 body .mock-role-card em { color: var(--school-muted-ink); }
-body .mock-login-form input, body .mock-login-form select { background: #fffefa; border-color: #d4ddd0; border-radius: 11px; min-height: 46px; }
+body .mock-login-form input, body .mock-login-form select { background: hsl(var(--school-hue) 100% 99%); border-color: hsl(var(--school-hue) 16% 84%); border-radius: 11px; min-height: 46px; }
 body .mock-login-submit { background: var(--school-button); border-radius: 12px; min-height: 50px; box-shadow: 0 5px 14px color-mix(in srgb, var(--school-button) 13%, transparent); }
 body .mock-login-submit:hover { background: var(--school-button-hover); }
-body .mock-credentials { border-color: var(--os-line); background: #fffefa; border-radius: 15px; }
-body .mock-security-note { color: #63736c; }
+body .mock-credentials { border-color: var(--os-line); background: hsl(var(--school-hue) 100% 99%); border-radius: 15px; }
+body .mock-security-note { color: hsl(var(--school-hue) 7% 42%); }
 .portal-actions { position: fixed; right: 18px; bottom: 18px; z-index: 90; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; max-width: calc(100vw - 36px); padding: 6px; background: #fffefaf2; border: 1px solid var(--os-line); border-radius: 19px; box-shadow: 0 8px 32px color-mix(in srgb, var(--school-primary) 11%, transparent); }
 .portal-logout { cursor: pointer; color: var(--school-ink); background: transparent; border: 0; border-radius: 12px; padding: 15px 18px; font-size: 12px; font-weight: 750; }
 .portal-logout:hover { background: var(--school-accent-wash-soft); }
