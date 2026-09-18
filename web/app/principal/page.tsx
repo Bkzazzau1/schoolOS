@@ -111,7 +111,7 @@ export default function PrincipalDashboard() {
               <div className="principal-activity">{activity.map((item, index) => <div key={item}><span>{index + 1}</span><p>{item}</p><small>{index === 0 ? "12 min" : `${(index + 1) * 18} min`} ago</small></div>)}</div>
             </Panel>
             <Panel title="Quick leadership actions" subtitle="Common Secondary principal workflows" link="/principal/assignments">
-              <div className="principal-quick-grid"><Link href="/principal/assignments">Assign teachers to subjects</Link><Link href="/principal/approvals">Approve teacher work</Link><Link href="/principal/teachers">Review teachers</Link><Link href="/principal/students">Student interventions</Link><Link href="/principal/results">Review reports</Link><Link href="/principal/incidents">Open incidents</Link></div>
+              <div className="principal-quick-grid"><Link href="/principal/assignments">Assign teachers to subjects</Link><Link href="/principal/approvals">Approve teacher work</Link><Link href="/principal/teachers">Review teachers</Link><Link href="/principal/students">Student interventions</Link><Link href="/principal/results">Review reports</Link><Link href="/principal/incidents">Open incidents</Link><Link href="/finance-office/scholarships">Request scholarship / discount</Link></div>
             </Panel>
           </section>
         </div>

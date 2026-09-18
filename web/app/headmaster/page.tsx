@@ -96,7 +96,7 @@ export default function HeadmasterDashboard() {
               <div className="headmaster-teacher-list">{filteredTeachers.map((teacher) => <div key={teacher.name}><div className="headmaster-avatar">{teacher.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}</div><div><strong>{teacher.name}</strong><small>{teacher.role}</small></div><span><small>Attendance</small><b>{teacher.attendance}%</b></span><span><small>Planning</small><b>{teacher.planning}%</b></span><em className={teacher.status.toLowerCase().replaceAll(" ", "-")}>{teacher.status}</em></div>)}</div>
             </Panel>
             <Panel title="Quick leadership actions" subtitle="Common Primary School workflows" href="/headmaster/assignments">
-              <div className="headmaster-quick-grid"><Link href="/headmaster/assignments">Assign teachers</Link><Link href="/headmaster/attendance">Review attendance</Link><Link href="/headmaster/pupils">Pupil support</Link><Link href="/headmaster/results">Review reports</Link><Link href="/headmaster/timetable">Timetable</Link><Link href="/headmaster/communication">Message guardians</Link></div>
+              <div className="headmaster-quick-grid"><Link href="/headmaster/assignments">Assign teachers</Link><Link href="/headmaster/attendance">Review attendance</Link><Link href="/headmaster/pupils">Pupil support</Link><Link href="/headmaster/results">Review reports</Link><Link href="/headmaster/timetable">Timetable</Link><Link href="/headmaster/communication">Message guardians</Link><Link href="/finance-office/scholarships">Request scholarship / discount</Link></div>
             </Panel>
           </section>
 
@@ -105,7 +105,7 @@ export default function HeadmasterDashboard() {
               <div className="headmaster-activity">{activity.map((item, index) => <div key={item}><span>{index + 1}</span><p>{item}</p><small>{index === 0 ? "14 min" : `${(index + 1) * 17} min`} ago</small></div>)}</div>
             </Panel>
             <Panel title="Section authority" subtitle="What this workspace controls" href="/proprietor/structure">
-              <div className="headmaster-authority"><div><span>Can manage</span><strong>Primary pupils, teachers, subjects, assignments, attendance, results and communication</strong></div><div><span>Cannot manage</span><strong>Nursery, Secondary, school ownership, official identity or proprietor settings</strong></div></div>
+              <div className="headmaster-authority"><div><span>Can manage</span><strong>Primary pupils, teachers, subjects, assignments, attendance, results, communication and scholarship/discount requests</strong></div><div><span>Cannot manage</span><strong>Nursery, Secondary, school ownership, official identity, proprietor settings, or approving a scholarship/discount</strong></div></div>
             </Panel>
           </section>
         </div>
